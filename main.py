@@ -8,8 +8,8 @@ from watcher import start_watcher  # Importer le watcher
 pygame.init()
 
 # Window settings
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Age of War"
 
 # Colors
@@ -17,7 +17,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Create game window
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption(SCREEN_TITLE)
 
 # Set up the clock for managing frame rate
