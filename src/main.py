@@ -31,6 +31,10 @@ def main():
         pygame.display.update()
         clock.tick(FPS)
 
+        screen.fill((0, 0, 0))
+        game.draw(screen)
+        pygame.display.flip()
+
 
 if __name__ == "__main__":
     main()
