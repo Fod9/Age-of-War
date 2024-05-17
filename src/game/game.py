@@ -16,6 +16,9 @@ class Game:
         pass
 
     def draw(self, screen):
+        b = 20
+
+        pygame.draw.rect(screen, (255, 0, 0), (a, b, 100, 100))
 
         for unit in self.units:
             unit.draw(screen)

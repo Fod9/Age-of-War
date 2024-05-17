@@ -26,7 +26,7 @@ def start_game():
 def watch_and_reload():
     event_handler = ReloadHandler(start_game)
     observer = Observer()
-    observer.schedule(event_handler, path='.', recursive=True)
+    observer.schedule(event_handler, path='./src', recursive=True)
     observer.start()
 
     try:
