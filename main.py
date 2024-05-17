@@ -21,13 +21,13 @@ FPS = 60
 # ? GAME LOOP
 
 def main():
-    game = Game()
+    game: Game = Game(screen)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        game.run()
+            game.handle_event(event)
         pygame.display.update()
         clock.tick(FPS)
 
