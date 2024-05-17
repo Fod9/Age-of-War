@@ -16,6 +16,7 @@ class Game:
         pass
 
     def draw(self, screen):
+
         for unit in self.units:
             unit.draw(screen)
         for turret in self.turrets:

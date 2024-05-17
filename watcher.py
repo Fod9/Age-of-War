@@ -1,10 +1,9 @@
-
+import sys
 import time
+import pygame
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import importlib
-
-import main
 
 
 class ReloadHandler(FileSystemEventHandler):
@@ -13,12 +12,15 @@ class ReloadHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if event.src_path.endswith(".py"):
+            print(f"File changed: {event.src_path}")
             self.reload_callback()
 
 
 def start_game():
+    global main
+    import main
     importlib.reload(main)
-    main.main()
+    main.run_game()
 
 
 def watch_and_reload():

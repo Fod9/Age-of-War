@@ -1,39 +1,53 @@
 import pygame
 import sys
-from src.game.game import Game
 
-# ? INITIALIZATION
-
+# Initialize Pygame
 pygame.init()
 
-WIDTH: int = 1920
-HEIGHT: int = 1080
-GAME_NAME: str = "Age of War"
+# Window settings
+SCREEN_WIDTH: int = 1920
+SCREEN_HEIGHT: int = 1080
+SCREEN_TITLE: str = "Age of War"
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption(GAME_NAME)
+# Colors
+WHITE: tuple = (255, 255, 255)
+BLACK: tuple = (0, 0, 0)
 
-clock = pygame.time.Clock()
+# Create game window
+screen: pygame.display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption(SCREEN_TITLE)
 
-FPS = 60
+clock: pygame.time.Clock = pygame.time.Clock()
+FPS: int = 60
 
-
-# ? GAME LOOP
 
 def main():
+    from src.game.game import Game
+
     game: Game = Game(screen)
-    while True:
+
+    # Main game loop
+    running: bool = True
+    while running:
+        # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                running = False
             game.handle_event(event)
-        pygame.display.update()
-        clock.tick(FPS)
 
-        screen.fill((0, 0, 0))
+        # Update game state
+        game.update()
+
+        # Draw everything
+        screen.fill(BLACK)
         game.draw(screen)
         pygame.display.flip()
+
+        # Maintain frame rate
+        clock.tick(FPS)
+
+    pygame.quit()
+    sys.exit()
 
 
 if __name__ == "__main__":
