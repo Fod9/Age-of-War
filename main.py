@@ -33,7 +33,9 @@ def run_game():
             if reload_event.is_set():
                 reload_event.clear()
                 print("Reloading game module...")
-                importlib.reload(sys.modules['src.game.game'])
+                for module in sys.modules.copy():
+                    if module.startswith("src.game"):
+                        importlib.reload(sys.modules[module])
 
             print("Starting new game instance...")
             from src.game.game import Game
