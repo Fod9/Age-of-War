@@ -1,33 +1,26 @@
-import sys
+import os
 import time
-import pygame
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import importlib
-
+import sys
 
 class ReloadHandler(FileSystemEventHandler):
-    def __init__(self, reload_callback):
-        self.reload_callback = reload_callback
+    def __init__(self, reload_event):
+        self.reload_event = reload_event
 
     def on_modified(self, event):
         if event.src_path.endswith(".py"):
-            print(f"File changed: {event.src_path}")
-            self.reload_callback()
+            print(f"Detected change in: {event.src_path}")
+            self.reload_event.set()
 
-
-def start_game():
-    global main
-    import main
-    importlib.reload(main)
-    main.run_game()
-
-
-def watch_and_reload():
-    event_handler = ReloadHandler(start_game)
+def start_watcher(reload_event):
+    path = '.'
+    event_handler = ReloadHandler(reload_event)
     observer = Observer()
-    observer.schedule(event_handler, path='./src', recursive=True)
+    observer.schedule(event_handler, path, recursive=True)
     observer.start()
+    print(f"Watching for file changes in {os.path.abspath(path)}")
 
     try:
         while True:
@@ -35,8 +28,3 @@ def watch_and_reload():
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
-
-
-if __name__ == "__main__":
-    start_game()
-    watch_and_reload()
