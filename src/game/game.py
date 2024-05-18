@@ -2,8 +2,10 @@
 
 import pygame
 from src.game.base import Base
-class Game:
+from src.game.units import Infantry, Support, Heavy, AntiTank
 
+
+class Game:
     age: int
     background: pygame.Surface
     red_castle: Base
@@ -20,7 +22,12 @@ class Game:
         self.blue_castle = Base(name="blue", owner="blue", age=self.age)
         self.screen = screen
         self.running = True
-        self.units = []
+        self.units = [
+            Infantry((100, 100), age=self.age),
+            Support((100, 200), age=self.age),
+            Heavy((100, 300), age=self.age),
+            AntiTank((100, 400), age=self.age),
+        ]
         self.turrets = []
 
     def handle_event(self, event):
@@ -30,7 +37,6 @@ class Game:
                                                      (self.screen.get_width(), self.screen.get_height()))
             self.red_castle.handle_resize(self.screen)
             self.blue_castle.handle_resize(self.screen)
-
 
     def update(self):
         pass
@@ -43,6 +49,7 @@ class Game:
         self.blue_castle.draw(screen)
 
         for unit in self.units:
+            unit.update(self.units)
             unit.draw(screen)
         for turret in self.turrets:
             turret.draw(screen)

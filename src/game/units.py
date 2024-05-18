@@ -18,10 +18,11 @@ class Unit:
     position: Tuple[int, int]
     weak_against: list
     screen: pygame.Surface
+    age: int
 
     def __init__(self, nom: str, HP: int, price: float, damage: float, attack_speed: float, range: float,
                  gold_value: float, walk_speed: float, build_time: float, image: pygame.Surface,
-                 position: Tuple[int, int], weak_against: list = []):
+                 position: Tuple[int, int], weak_against: list = [], age: int = 1):
         self.id = id(self)
         self.nom = nom
         self.HP = HP
@@ -38,6 +39,7 @@ class Unit:
         self.collide_rect = self.image.get_rect(topleft=self.position)
         self.screen = pygame.display.get_surface()
         self.last_attack_time = 0
+        self.age = age
 
     def draw(self, screen):
         screen.blit(self.image, self.position)
@@ -65,13 +67,14 @@ class Unit:
         self.last_attack_time = pygame.time.get_ticks() # Update last attack time
 
     def take_damage(self, damage, attacker):
-
+        # Check if the attacker is weak against this unit
         if attacker.nom in self.weak_against:
             damage *= 2
 
         self.HP -= damage
 
     def die(self, units):
+        # Remove the unit from the list of units
         units.remove(self)
 
     def update(self, units: list):
@@ -93,7 +96,7 @@ class Unit:
 
 
 class Infantry(Unit):
-    def __init__(self, position: Tuple[int, int]):
+    def __init__(self, position: Tuple[int, int], age: int = 1):
         super().__init__(
             "Infantry",
             100,
@@ -106,12 +109,13 @@ class Infantry(Unit):
             1,
             pygame.image.load("assets/infantry.png"),
             position,
-            weak_against=["Heavy"]
+            weak_against=["Heavy"],
+            age=age
         )
 
 
 class Support(Unit):
-    def __init__(self, position: Tuple[int, int]):
+    def __init__(self, position: Tuple[int, int], age: int = 1):
         super().__init__(
             "Support",
             50,
@@ -124,12 +128,13 @@ class Support(Unit):
             1,
             pygame.image.load("assets/support.png"),
             position,
-            weak_against=["Infantry"]
+            weak_against=["Infantry"],
+            age=age
         )
 
 
 class Heavy(Unit):
-    def __init__(self, position: Tuple[int, int]):
+    def __init__(self, position: Tuple[int, int], age: int = 1):
         super().__init__(
             "Heavy",
             400,
@@ -140,14 +145,15 @@ class Heavy(Unit):
             10,
             1,
             3,
-            pygame.image.load("assets/heavy.png"),
+            pygame.image.load("assets/units/heavy.png"),
             position,
-            weak_against=["AntiTank"]
+            weak_against=["AntiTank"],
+            age=age
         )
 
 
 class AntiTank(Unit):
-    def __init__(self, position: Tuple[int, int]):
+    def __init__(self, position: Tuple[int, int],age: int = 1):
         super().__init__(
             "AntiTank",
             200,
@@ -160,5 +166,6 @@ class AntiTank(Unit):
             2,
             pygame.image.load("assets/antitank.png"),
             position,
-            weak_against=["Heavy"]
+            weak_against=["Heavy"],
+            age=age
         )
