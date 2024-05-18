@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/backgrounds/1/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/backgrounds/3/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/base/1/blue_base.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/base/1/red_base.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/units.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/castle/blue_castle.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/3/blue_base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/castle/red_castle.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/3/red_base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/castle.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1715941422362</updated>
       <workItem from="1715941426563" duration="1273000" />
-      <workItem from="1715945843639" duration="10412000" />
+      <workItem from="1715945843639" duration="11703000" />
     </task>
     <servers />
   </component>

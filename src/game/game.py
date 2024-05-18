@@ -4,6 +4,15 @@ import pygame
 from src.game.base import Base
 class Game:
 
+    age: int
+    background: pygame.Surface
+    red_castle: Base
+    blue_castle: Base
+    screen: pygame.Surface
+    running: bool
+    units: list
+    turrets: list
+
     def __init__(self, screen):
         self.age = 1
         self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
