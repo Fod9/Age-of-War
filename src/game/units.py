@@ -4,6 +4,7 @@ import pygame
 
 
 class Unit:
+    id: int
     nom: str
     HP: int
     price: float
@@ -16,10 +17,12 @@ class Unit:
     image: pygame.Surface
     position: Tuple[int, int]
     weak_against: list
+    screen: pygame.Surface
 
     def __init__(self, nom: str, HP: int, price: float, damage: float, attack_speed: float, range: float,
                  gold_value: float, walk_speed: float, build_time: float, image: pygame.Surface,
                  position: Tuple[int, int], weak_against: list = []):
+        self.id = id(self)
         self.nom = nom
         self.HP = HP
         self.price = price
@@ -32,31 +35,61 @@ class Unit:
         self.image = image
         self.position = position
         self.weak_against = weak_against
+        self.collide_rect = self.image.get_rect(topleft=self.position)
+        self.screen = pygame.display.get_surface()
+        self.last_attack_time = 0
 
     def draw(self, screen):
         screen.blit(self.image, self.position)
 
-    def move(self, x, y):
-        self.position = (self.position[0] + x, self.position[1] + y)
-        # move the unit to the new position
-        pass
+    def can_attack(self, target):
+        if target.position[0] - self.position[0] <= self.range:
+            return True
+        return False
+
+    def move(self, x, y, units: list):
+        # Calculate new position
+        new_position = (self.position[0] + x, self.position[1] + y)
+        # Check if the new position is within the screen bounds
+        if 0 <= new_position[0] <= self.screen.get_width() and 0 <= new_position[1] <= self.screen.get_height():
+            # Check for collision with other units
+            for unit in units:
+                if unit is not self and unit.collide_rect.colliderect(pygame.Rect(new_position, self.image.get_size())):
+                    return  # If collision is detected, stop moving
+            # Update position and rectangle
+            self.position = new_position
+            self.collide_rect.topleft = self.position
 
     def attack(self, target):
-        # attack the target
-        pass
+        target.take_damage(self.damage, self)
+        self.last_attack_time = pygame.time.get_ticks() # Update last attack time
 
-    def take_damage(self, damage):
+    def take_damage(self, damage, attacker):
+
+        if attacker.nom in self.weak_against:
+            damage *= 2
+
         self.HP -= damage
+
+    def die(self, units):
+        units.remove(self)
+
+    def update(self, units: list):
+        # check if the unit is alive
         if self.HP <= 0:
-            self.die()
+            self.die([])
+            return
 
-    def die(self):
-        # remove the unit from the game
-        pass
+        time = pygame.time.get_ticks()
 
-    def update(self):
-        # update the unit's state
-        pass
+        # check if the unit can attack
+        if time - self.last_attack_time >= self.attack_speed * 1000:
+            for unit in units:
+                if unit is not self and self.can_attack(unit):
+                    self.attack(unit)
+                    break
+        else:
+            self.move(self.walk_speed, 0, units)
 
 
 class Infantry(Unit):
@@ -66,10 +99,10 @@ class Infantry(Unit):
             100,
             10,
             10,
-            1,
+            1.5,
             1,
             5,
-            1,
+            2,
             1,
             pygame.image.load("assets/infantry.png"),
             position,
@@ -101,8 +134,8 @@ class Heavy(Unit):
             "Heavy",
             400,
             20,
-            20,
-            1,
+            10,
+            0.5,
             1,
             10,
             1,
