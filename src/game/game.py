@@ -22,11 +22,16 @@ class Game:
         self.blue_castle = Base(name="blue", owner="blue", age=self.age)
         self.screen = screen
         self.running = True
+        screen_width = screen.get_width()
         self.units = [
-            Infantry((100, 100), age=self.age),
-            Support((100, 200), age=self.age),
-            Heavy((100, 300), age=self.age),
-            AntiTank((100, 400), age=self.age),
+            Infantry((screen_width -200, 550), age=self.age, team="R"),
+            Infantry((screen_width - 250, 550), age=self.age, team="R"),
+            Infantry((screen_width - 300, 550), age=self.age, team="R"),
+            AntiTank((screen_width - 400, 550), age=self.age, team="R"),
+            Heavy((300, 550), age=self.age, team="B"),
+            Support((200, 550), age=self.age, team="B"),
+            Infantry((100, 550), age=self.age, team="B"),
+            Infantry((50, 550), age=self.age, team="B"),
         ]
         self.turrets = []
 
