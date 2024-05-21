@@ -45,7 +45,7 @@ class Unit:
         self.position = position
         self.max_health = HP
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         screen.blit(self.image, self.position)
 
         # Draw health bar
@@ -64,7 +64,7 @@ class Unit:
         pygame.draw.rect(screen, (0, 255, 0),
                          (health_bar_x, health_bar_y, health_bar_width * health_percentage, health_bar_height))
 
-    def move(self, x, y, units: list):
+    def move(self, x: int, y: int, units: list):
         # Calculate new position based on team direction
         if self.team == "B":
             new_position = (self.position[0] + x, self.position[1] + y)
@@ -94,11 +94,11 @@ class Unit:
                 self.position = new_position
                 self.collide_rect.topleft = self.position
 
-    def attack(self, target):
+    def attack(self, target: "Unit"):
         target.take_damage(self.damage, self)
         self.last_attack_time = pygame.time.get_ticks()  # Update last attack time
 
-    def take_damage(self, damage, attacker):
+    def take_damage(self, damage: float, attacker: "Unit"):
         # Check if the attacker is weak against this unit
         if attacker.nom in self.weak_against:
             damage *= 2
@@ -107,11 +107,11 @@ class Unit:
 
         self.HP -= damage
 
-    def die(self, units):
+    def die(self, units: list["Unit"]):
         units.remove(self)
         pass
 
-    def update(self, units: list):
+    def update(self, units: list["Unit"]):
 
         if self.HP <= 0:
             self.die(units)
@@ -134,8 +134,7 @@ class Unit:
         if not can_attack:
             self.move(self.walk_speed, 0, units)
 
-
-    def can_attack(self, target):
+    def can_attack(self, target: "Unit"):
         # Check if the target is within the attack range
         distance = abs(self.position[0] - target.position[0])
         return distance <= self.range
