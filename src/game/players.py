@@ -3,13 +3,16 @@ from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
 from src.game.base import Base
 from typing import List
 
+
 class Player:
     def __init__(self, name: str, team: str, age: int = 1):
         self.name = name
         self.team = team
         self.age = age
+        self.money = 30
         self.base = Base(name=f"{team}_base", owner=team, age=self.age)
         self.units = self._initialize_units()
+        self.last_money_update = pygame.time.get_ticks()
 
     def _initialize_units(self) -> List[Unit]:
         # Initialize units based on the team and age
@@ -30,17 +33,26 @@ class Player:
             ]
         return units
 
-    def draw(self, screen: pygame.Surface):
-        self.base.draw(screen)
-        for unit in self.units:
-            unit.draw(screen)
+    def update(self, all_units: List[Unit]):
+        for unit in self.units[:]:
+            unit.update(all_units, self)
 
-    def update(self, units: List[Unit]):
-        for unit in self.units:
-            unit.update(units)
+        # Update money every 5 seconds
+        if pygame.time.get_ticks() - self.last_money_update > 2_000:
+            self.money += 1
+            self.last_money_update = pygame.time.get_ticks()
 
     def add_unit(self, unit: Unit):
         self.units.append(unit)
 
     def remove_unit(self, unit: Unit):
         self.units.remove(unit)
+
+    def draw(self, screen):
+        # money text
+        font = pygame.font.Font(None, 36)
+        text = font.render(f"Money: {self.money}", True, (0, 0, 0))
+        if self.team == "R":
+            screen.blit(text, (screen.get_width() - 150, 10))
+        else:
+            screen.blit(text, (10, 10))

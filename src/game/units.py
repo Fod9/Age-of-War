@@ -103,22 +103,19 @@ class Unit:
         if attacker.nom in self.weak_against:
             damage *= 2
 
-        print(f"{self.nom} took {damage} damage from {attacker.nom} ({attacker.team})")
-
         self.HP -= damage
 
-    def die(self, units: list["Unit"]):
-        units.remove(self)
-        pass
+    def die(self, player):
+        if self in player.units:
+            player.units.remove(self)
+            player.money += self.gold_value
 
-    def update(self, units: list["Unit"]):
-
+    def update(self, units: list, player):
         if self.HP <= 0:
-            self.die(units)
+            self.die(player)
             return
 
         time = pygame.time.get_ticks()
-
         can_attack = False
 
         # Check if the unit can attack any enemy unit

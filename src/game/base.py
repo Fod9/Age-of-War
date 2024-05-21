@@ -13,10 +13,11 @@ class Base:
         self.h_percent = 0.8
         self.v_percent = 0.8
         self.heigth_offset = 1
-        self.base_image = pygame.image.load(f'assets/base/{self.age}/{self.owner}_base.png').convert_alpha()
+        self.health = 100
+        self.base_image = pygame.image.load(f'assets/base/{self.age}/{self.owner}_Base.png').convert_alpha()
 
     def handle_resize(self, screen):
-        self.base_image = pygame.image.load(f'assets/base/{self.age}/{self.owner}_base.png').convert_alpha()
+        self.base_image = pygame.image.load(f'assets/base/{self.age}/{self.owner}_Base.png').convert_alpha()
         self.draw(screen)
 
     def define_render_params(self):
