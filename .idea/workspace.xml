@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/units/1/B_AntiTank.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/B_Heavy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/B_Infantry.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/B_Support.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/R_AntiTank.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/R_Heavy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/R_Infantry.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/units/1/R_Support.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/units.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/units.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,22 +34,22 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.game.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Units",
-    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/units/1",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.game.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Units&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tom/PycharmProjects/Age Of War/assets/units/1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/units/1" />
@@ -93,7 +83,8 @@
       <updated>1715941422362</updated>
       <workItem from="1715941426563" duration="1273000" />
       <workItem from="1715945843639" duration="11703000" />
-      <workItem from="1716285626825" duration="5861000" />
+      <workItem from="1716285626825" duration="7143000" />
+      <workItem from="1716315391689" duration="1171000" />
     </task>
     <servers />
   </component>
