@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 import pygame
 
 
@@ -19,6 +19,7 @@ class Unit:
     screen: pygame.Surface
     age: int
     team: str
+    build_start_time: Union[int, None]
 
     def __init__(self, nom: str, HP: int, price: float, damage: float, attack_speed: float, range: float,
                  gold_value: float, walk_speed: float, build_time: float, image: pygame.Surface,
@@ -36,6 +37,7 @@ class Unit:
         self.base_image = image
         self.image = pygame.transform.scale(image, (int(image.get_width() * .5), int(image.get_height() * .5)))
         self.screen = pygame.display.get_surface()
+        self.build_start_time = None
 
         # Calculer la position pour que les pieds soient alignés à 20% au-dessus du bas de l'écran
         screen_height = self.screen.get_height()
@@ -162,7 +164,7 @@ class Infantry(Unit):
             200,
             5,
             1,
-            10,
+            2,
             image,
             weak_against=["Heavy"],
             age=age,
@@ -182,7 +184,7 @@ class Support(Unit):
             300,
             2.5,
             1,
-            10,
+            1,
             image,
             weak_against=["Infantry"],
             age=age,
@@ -202,7 +204,7 @@ class Heavy(Unit):
             150,
             10,
             1,
-            10,
+            5,
             image,
             weak_against=["AntiTank"],
             age=age,
@@ -222,7 +224,7 @@ class AntiTank(Unit):
             150,
             7.5,
             1,
-            10,
+            6,
             image,
             weak_against=["Heavy"],
             age=age,

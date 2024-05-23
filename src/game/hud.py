@@ -1,16 +1,20 @@
+from typing import Tuple, Callable
+
 import pygame
+
+from src.game.units import Infantry, Support, Heavy, AntiTank
 
 
 class HUD:
     def __init__(self, player):
         self.player = player
         self.font = pygame.font.Font(None, 36)
+        self.buttons = []
+        self.initialize_buttons()
 
-    def draw_button(self, screen):
-        # draw the buttons for the units
-
-        baseline = screen.get_height() - 20
-        button_size = screen.get_width() // 20
+    def initialize_buttons(self):
+        baseline = pygame.display.get_surface().get_height() - 20
+        button_size = pygame.display.get_surface().get_width() // 20
         size = (button_size, button_size)
         spacing = 20
 
@@ -22,39 +26,64 @@ class HUD:
             ("assets/hud/AntiTank.png", "AntiTank")
         ]
 
-        buttons = []
-
         # Initialisation des boutons
         for i, (image_path, name) in enumerate(buttons_data):
             x_position = 100 + i * (button_size + spacing)
             y_position = baseline - button_size
-            button = Button(pygame.image.load(image_path), (x_position, y_position), size)
-            buttons.append(button)
+            if name == "Infantry":
+                button = Button(pygame.image.load(image_path), (x_position, y_position), size, action=lambda: self.player.add_unit(
+                    Infantry(age=self.player.age, team=self.player.team)
+                ))
+            elif name == "Support":
+                button = Button(pygame.image.load(image_path), (x_position, y_position), size, action=lambda: self.player.add_unit(
+                    Support(age=self.player.age, team=self.player.team)
+                ))
+            elif name == "Heavy":
+                button = Button(pygame.image.load(image_path), (x_position, y_position), size, action=lambda: self.player.add_unit(
+                    Heavy(age=self.player.age, team=self.player.team)
+                ))
+            elif name == "AntiTank":
+                button = Button(pygame.image.load(image_path), (x_position, y_position), size, action=lambda: self.player.add_unit(
+                    AntiTank(age=self.player.age, team=self.player.team)
+                ))
 
-        # Dessin des boutons
-        for button in buttons:
-            button.draw(screen)
+            self.buttons.append(button)
 
     def draw(self, screen):
-        text = self.font.render("Health: %d" % self.player.base.health, 1, (0, 0, 0))
-        screen.blit(text, (10, 10))
+        # Draw money
+        money_text = self.font.render(f"Money: {self.player.money}", True, (0, 0, 0))
+        screen.blit(money_text, (20, 20))
+        # Draw buttons
+        for button in self.buttons:
+            button.draw(screen)
 
-        # draw money
-        text = self.font.render("Money: %d" % self.player.money, 1, (0, 0, 0))
-        screen.blit(text, (10, 50))
-
-        self.draw_button(screen)
+    def handle_event(self, event):
+        for button in self.buttons:
+            button.handle_event(event)
 
 
 class Button:
-    def __init__(self, image, position, size, action=None):
+    def __init__(self, image: pygame.Surface, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None):
         self.image = pygame.transform.scale(image, size)
         self.position = position
         self.size = size
-        self.action = None
+        self.action = action
+        self.rect = pygame.Rect(position, size)
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         screen.blit(self.image, self.position)
 
-    def is_clicked(self, position):
-        pass
+    def is_hovered(self, mouse_pos: Tuple[int, int]) -> bool:
+        return self.rect.collidepoint(mouse_pos)
+
+    def click(self):
+        if self.action:
+            self.action()
+
+    def handle_event(self, event: pygame.event.Event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if self.is_hovered(event.pos):
+                    self.click()
+
+

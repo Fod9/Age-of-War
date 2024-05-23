@@ -23,7 +23,7 @@ class Game:
         # Initialisation des joueurs
         self.red_player = Player(name="Player 1", team="R", age=self.age)
         self.blue_player = Player(name="Player 2", team="B", age=self.age)
-        self.hud = HUD(self.red_player)
+        self.hud = HUD(self.blue_player)
 
     def handle_event(self, event):
         if event.type == pygame.VIDEORESIZE:
@@ -38,6 +38,13 @@ class Game:
 
             for unit in units:
                 unit.handle_resize(screen)
+
+        if event.type == pygame.QUIT:
+            self.running = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                self.hud.handle_event(event)
 
     def update(self):
         all_units = self.red_player.units + self.blue_player.units

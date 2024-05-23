@@ -12,6 +12,7 @@ class Player:
         self.money = 30
         self.base = Base(name=f"{team}_base", owner=team, age=self.age)
         self.units = self._initialize_units()
+        self.queue = []
         self.last_money_update = pygame.time.get_ticks()
 
     def _initialize_units(self) -> List[Unit]:
@@ -24,13 +25,6 @@ class Player:
                 Infantry(age=self.age, team=self.team),
                 AntiTank(age=self.age, team=self.team)
             ]
-        elif self.team == "B":
-            units = [
-                Heavy(age=self.age, team=self.team),
-                Support(age=self.age, team=self.team),
-                Infantry(age=self.age, team=self.team),
-                Infantry(age=self.age, team=self.team)
-            ]
         return units
 
     def update(self, all_units: List[Unit]):
@@ -38,12 +32,23 @@ class Player:
             unit.update(all_units, self)
 
         # Update money every 5 seconds
-        if pygame.time.get_ticks() - self.last_money_update > 2_000:
+        if pygame.time.get_ticks() - self.last_money_update > 500:
             self.money += 1
             self.last_money_update = pygame.time.get_ticks()
 
+            # Check if the build time has passed for the first unit in the queue
+            if self.queue:
+                unit = self.queue[0]
+                if pygame.time.get_ticks() - unit.build_start_time > unit.build_time * 1_000:
+                    self.units.append(unit)
+                    self.queue.pop(0)
+                    print(f"Unit {unit.nom} built")
+
     def add_unit(self, unit: Unit):
-        self.units.append(unit)
+        if self.money >= unit.price:
+            unit.build_start_time = pygame.time.get_ticks()
+            self.queue.append(unit)
+            self.money -= unit.price
 
     def remove_unit(self, unit: Unit):
         self.units.remove(unit)
