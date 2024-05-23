@@ -1,5 +1,4 @@
 from typing import Tuple
-
 import pygame
 
 
@@ -15,7 +14,7 @@ class Unit:
     walk_speed: float
     build_time: float
     image: pygame.Surface
-    position: Tuple[int, int]
+    position: Tuple[float, float]
     weak_against: list
     screen: pygame.Surface
     age: int
@@ -23,7 +22,7 @@ class Unit:
 
     def __init__(self, nom: str, HP: int, price: float, damage: float, attack_speed: float, range: float,
                  gold_value: float, walk_speed: float, build_time: float, image: pygame.Surface,
-                 position: Tuple[int, int], weak_against: list = [], age: int = 1, team: str = "B"):
+                 weak_against: list = [], age: int = 1, team: str = "B"):
         self.id = id(self)
         self.nom = nom
         self.HP = HP
@@ -34,16 +33,32 @@ class Unit:
         self.gold_value = gold_value
         self.walk_speed = walk_speed
         self.build_time = build_time
+        self.base_image = image
         self.image = pygame.transform.scale(image, (int(image.get_width() * .5), int(image.get_height() * .5)))
-        self.position = position
+        self.screen = pygame.display.get_surface()
+
+        # Calculer la position pour que les pieds soient alignés à 20% au-dessus du bas de l'écran
+        screen_height = self.screen.get_height()
+        screen_width = self.screen.get_width()
+        y_position = screen_height - 300
+
+        if team == "B":
+            x_position = int(screen_width * 0.05)  # Unités bleues à gauche
+        else:
+            x_position = screen_width - int(screen_width * 0.05) - self.image.get_width()  # Unités rouges à droite
+
+        self.position = (x_position, y_position)
         self.weak_against = weak_against
         self.collide_rect = self.image.get_rect(topleft=self.position)
-        self.screen = pygame.display.get_surface()
         self.last_attack_time = 0
         self.age = age
         self.team = team
-        self.position = position
         self.max_health = HP
+
+    def handle_resize(self, screen):
+        self.screen = screen
+        self.position = (self.position[0], screen.get_height() - 300)
+        self.collide_rect = self.image.get_rect(topleft=self.position)
 
     def draw(self, screen: pygame.Surface):
         screen.blit(self.image, self.position)
@@ -68,10 +83,8 @@ class Unit:
         # Calculate new position based on team direction
         if self.team == "B":
             new_position = (self.position[0] + x, self.position[1] + y)
-            move_direction = "right"
         else:
             new_position = (self.position[0] - x, self.position[1] + y)
-            move_direction = "left"
 
         # Check if the new position is within the screen bounds
         if 0 <= new_position[0] <= self.screen.get_width() - self.image.get_width() and 0 <= new_position[
@@ -138,7 +151,8 @@ class Unit:
 
 
 class Infantry(Unit):
-    def __init__(self, position: Tuple[int, int], age: int = 1, team: str = "B"):
+    def __init__(self, age: int = 1, team: str = "B"):
+        image = pygame.image.load(f"assets/units/{age}/{team}_Infantry.png")
         super().__init__(
             "Infantry",
             100,
@@ -148,9 +162,8 @@ class Infantry(Unit):
             200,
             5,
             1,
-            1,
-            pygame.image.load(f"assets/units/{age}/{team}_Infantry.png"),
-            position,
+            10,
+            image,
             weak_against=["Heavy"],
             age=age,
             team=team
@@ -158,7 +171,8 @@ class Infantry(Unit):
 
 
 class Support(Unit):
-    def __init__(self, position: Tuple[int, int], age: int = 1, team: str = "B"):
+    def __init__(self, age: int = 1, team: str = "B"):
+        image = pygame.image.load(f"assets/units/{age}/{team}_Support.png")
         super().__init__(
             "Support",
             50,
@@ -168,9 +182,8 @@ class Support(Unit):
             300,
             2.5,
             1,
-            1,
-            pygame.image.load(f"assets/units/{age}/{team}_Support.png"),
-            position,
+            10,
+            image,
             weak_against=["Infantry"],
             age=age,
             team=team
@@ -178,7 +191,8 @@ class Support(Unit):
 
 
 class Heavy(Unit):
-    def __init__(self, position: Tuple[int, int], age: int = 1, team: str = "B"):
+    def __init__(self, age: int = 1, team: str = "B"):
+        image = pygame.image.load(f"assets/units/{age}/{team}_Heavy.png")
         super().__init__(
             "Heavy",
             400,
@@ -188,9 +202,8 @@ class Heavy(Unit):
             150,
             10,
             1,
-            3,
-            pygame.image.load(f"assets/units/{age}/{team}_Heavy.png"),
-            position,
+            10,
+            image,
             weak_against=["AntiTank"],
             age=age,
             team=team
@@ -198,7 +211,8 @@ class Heavy(Unit):
 
 
 class AntiTank(Unit):
-    def __init__(self, position: Tuple[int, int], age: int = 1, team: str = "B"):
+    def __init__(self, age: int = 1, team: str = "B"):
+        image = pygame.image.load(f"assets/units/{age}/{team}_AntiTank.png")
         super().__init__(
             "AntiTank",
             150,
@@ -208,9 +222,8 @@ class AntiTank(Unit):
             150,
             7.5,
             1,
-            2,
-            pygame.image.load(f"assets/units/{age}/{team}_AntiTank.png"),
-            position,
+            10,
+            image,
             weak_against=["Heavy"],
             age=age,
             team=team

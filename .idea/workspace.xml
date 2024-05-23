@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/AntiTank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/Heavy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/Infantry.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/Support.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/base/1/blue_base.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/1/B_Base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/base/1/red_base.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/1/R_Base.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/players.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/players.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/units.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/units.py" afterDir="false" />
     </list>
@@ -47,7 +49,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Players",
-    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/units/4",
+    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -59,11 +61,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/hud" />
       <recent name="$PROJECT_DIR$/assets/units/4" />
       <recent name="$PROJECT_DIR$/assets/units/3" />
       <recent name="$PROJECT_DIR$/assets/units/2" />
       <recent name="$PROJECT_DIR$/assets/units/1" />
-      <recent name="$PROJECT_DIR$/assets/base/3" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/backgrounds/1" />
@@ -91,7 +93,7 @@
       <workItem from="1715941426563" duration="1273000" />
       <workItem from="1715945843639" duration="11703000" />
       <workItem from="1716285626825" duration="7143000" />
-      <workItem from="1716315391689" duration="3515000" />
+      <workItem from="1716315391689" duration="10733000" />
     </task>
     <servers />
   </component>

@@ -1,4 +1,4 @@
-# src/game/castle.py
+# src/game/base.py
 
 import pygame
 

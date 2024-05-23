@@ -19,17 +19,17 @@ class Player:
         units = []
         if self.team == "R":
             units = [
-                Infantry((800, 550), age=self.age, team=self.team),
-                Infantry((750, 550), age=self.age, team=self.team),
-                Infantry((700, 550), age=self.age, team=self.team),
-                AntiTank((600, 550), age=self.age, team=self.team)
+                Infantry(age=self.age, team=self.team),
+                Infantry(age=self.age, team=self.team),
+                Infantry(age=self.age, team=self.team),
+                AntiTank(age=self.age, team=self.team)
             ]
         elif self.team == "B":
             units = [
-                Heavy((300, 550), age=self.age, team=self.team),
-                Support((200, 550), age=self.age, team=self.team),
-                Infantry((100, 550), age=self.age, team=self.team),
-                Infantry((50, 550), age=self.age, team=self.team)
+                Heavy(age=self.age, team=self.team),
+                Support(age=self.age, team=self.team),
+                Infantry(age=self.age, team=self.team),
+                Infantry(age=self.age, team=self.team)
             ]
         return units
 
@@ -47,12 +47,3 @@ class Player:
 
     def remove_unit(self, unit: Unit):
         self.units.remove(unit)
-
-    def draw(self, screen):
-        # money text
-        font = pygame.font.Font(None, 36)
-        text = font.render(f"Money: {self.money}", True, (0, 0, 0))
-        if self.team == "R":
-            screen.blit(text, (screen.get_width() - 150, 10))
-        else:
-            screen.blit(text, (10, 10))
