@@ -1,16 +1,7 @@
 from typing import Tuple, Callable, Union
-
 import pygame
-
 from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
-
-from src.game.units import Infantry, Support, Heavy, AntiTank
-import pygame
-
-from src.game.units import Infantry, Support, Heavy, AntiTank
-import pygame
-
 
 class HUD:
     def __init__(self, player: Player):
@@ -37,11 +28,17 @@ class HUD:
         for i, (image_path, unit_class, build_time, price) in enumerate(buttons_data):
             x_position = 100 + i * (button_size + spacing)
             y_position = baseline - button_size
-            button = Button(pygame.image.load(image_path), (x_position, y_position), size,
-                            action=lambda :
-                            self.player.add_unit(
-                                unit_class(age=self.player.age, team=self.player.team)
-                            ), build_time=build_time, player=self.player, price=price)
+            button = Button(
+                pygame.image.load(image_path),
+                (x_position, y_position),
+                size,
+                action=lambda unit_class=unit_class: self.player.add_unit(
+                    unit_class(age=self.player.age, team=self.player.team)
+                ),
+                build_time=build_time,
+                player=self.player,
+                price=price
+            )
             self.buttons.append(button)
 
     def draw(self, screen):
@@ -62,11 +59,9 @@ class HUD:
 
 
 class Button:
+    player: Union[Player, None]
 
-    player: Union[Player,None]
-
-    def __init__(self, image: pygame.Surface, position: Tuple[int, int], size: Tuple[int, int], action: Callable =
-    None, build_time: int = 0, player=None, price=0):
+    def __init__(self, image: pygame.Surface, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None, build_time: int = 0, player=None, price=0):
         self.image = pygame.transform.scale(image, size)
         self.position = position
         self.size = size

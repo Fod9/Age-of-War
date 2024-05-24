@@ -3,7 +3,6 @@ from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
 from src.game.base import Base
 from typing import List
 
-
 import pygame
 from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
 from src.game.base import Base
@@ -20,6 +19,50 @@ class Player:
         self.units = []
         self.queue = []
         self.last_money_update = pygame.time.get_ticks()
+        self.xp = 0
+        self.next_age_xp = 100
+
+        self.damage_multiplier = {
+            "Infantry": 1,
+            "Support": 1,
+            "Heavy": 1,
+            "AntiTank": 1
+        }
+
+        self.hp_multiplier = {
+            "Infantry": 1,
+            "Support": 1,
+            "Heavy": 1,
+            "AntiTank": 1
+        }
+
+        self.range_multiplier = {
+            "Infantry": 1,
+            "Support": 1,
+            "Heavy": 1,
+            "AntiTank": 1
+        }
+
+        self.damage_upgrade_cost = {
+            "Infantry": 10,
+            "Support": 10,
+            "Heavy": 10,
+            "AntiTank": 10
+        }
+
+        self.hp_upgrade_cost = {
+            "Infantry": 10,
+            "Support": 10,
+            "Heavy": 10,
+            "AntiTank": 10
+        }
+
+        self.range_upgrade_cost = {
+            "Infantry": 10,
+            "Support": 10,
+            "Heavy": 10,
+            "AntiTank": 10
+        }
 
     def update(self, all_units: List[Unit], other_player: "Player"):
         for unit in self.units[:]:
@@ -41,6 +84,8 @@ class Player:
         self.base.update()
 
     def add_unit(self, unit: Unit):
+        if self.team == "B":
+            print(f"Adding {unit.nom} to the blue player")
         if self.money >= unit.price:
             # Check if the unit is already in the queue
             if not any(isinstance(q_unit, unit.__class__) for q_unit in self.queue):
