@@ -62,8 +62,8 @@ class Game:
         if self.bot:
             self.bot.perform_actions()
         self.red_player.update(all_units, self.blue_player)
-
         self.blue_player.update(all_units, self.red_player)
+        self.hud.update()
 
     def handle_game_config(self):
         if self.game_mode == "easy":

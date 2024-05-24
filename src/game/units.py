@@ -1,6 +1,8 @@
 from typing import Tuple, Union
 import pygame
 
+from src.game.base import Base
+
 
 class Unit:
     id: int
@@ -116,6 +118,10 @@ class Unit:
         target.take_damage(self.damage, self)
         self.last_attack_time = pygame.time.get_ticks()  # Update last attack time
 
+    def attack_base(self, base: "Base"):
+        base.take_damage(self.damage)
+        self.last_attack_time = pygame.time.get_ticks()
+
     def take_damage(self, damage: float, attacker: "Unit"):
         # Check if the attacker is weak against this unit
         if attacker.nom in self.weak_against:
@@ -130,7 +136,7 @@ class Unit:
 
     def update(self, units: list, player, other_player):
         if self.HP <= 0:
-            self.die(player)
+            self.die(player, other_player)
             return
 
         time = pygame.time.get_ticks()
@@ -142,8 +148,15 @@ class Unit:
                 can_attack = True
                 if time - self.last_attack_time >= self.attack_speed * 1000:
                     self.attack(unit)
-                    self.last_attack_time = time  # Reset the last attack time after attacking
-                    break
+                    self.last_attack_time = time
+                    break  # Exit the loop after attacking
+
+        # Check if the unit can attack the enemy base
+        if not can_attack and self.can_attack_base(other_player.base):
+            can_attack = True
+            if time - self.last_attack_time >= self.attack_speed * 1000:
+                self.attack_base(other_player.base)
+                self.last_attack_time = time
 
         # If the unit cannot attack, it should move
         if not can_attack:
@@ -154,8 +167,14 @@ class Unit:
         distance = abs(self.position[0] - target.position[0])
         return distance <= self.range
 
+    def can_attack_base(self, base: "Base"):
+        distance = abs(self.position[0] - base.position[0])
+        return distance <= self.range
+
 
 class Infantry(Unit):
+    build_time = 1
+    price = 10
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Infantry.png")
         super().__init__(
@@ -167,7 +186,7 @@ class Infantry(Unit):
             200,
             5,
             1,
-            1,
+            Infantry.build_time,
             image,
             weak_against=["Heavy"],
             age=age,
@@ -176,6 +195,8 @@ class Infantry(Unit):
 
 
 class Support(Unit):
+    price = 10
+    build_time = 1
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Support.png")
         super().__init__(
@@ -187,7 +208,7 @@ class Support(Unit):
             300,
             2.5,
             2,
-            1,
+            Support.build_time,
             image,
             weak_against=["Infantry"],
             age=age,
@@ -196,18 +217,20 @@ class Support(Unit):
 
 
 class Heavy(Unit):
+    build_time = 3
+    price = 25
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Heavy.png")
         super().__init__(
             "Heavy",
             400,
-            20,
+            25,
             2,
             1,
             150,
             10,
             1,
-            3,
+            Heavy.build_time,
             image,
             weak_against=["AntiTank"],
             age=age,
@@ -216,6 +239,8 @@ class Heavy(Unit):
 
 
 class AntiTank(Unit):
+    build_time = 3
+    price = 15
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_AntiTank.png")
         super().__init__(
@@ -227,7 +252,7 @@ class AntiTank(Unit):
             150,
             7.5,
             1,
-            3,
+            AntiTank.build_time,
             image,
             weak_against=["Heavy"],
             age=age,

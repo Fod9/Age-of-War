@@ -10,11 +10,10 @@ class EasyBot(AIBot):
         super().__init__(player)
 
     def perform_actions(self):
-        if random.random() < 0.05:
+        if random.random() < 0.1:
             self.spawn_unit()
 
     def spawn_unit(self):
-        print(self.player.money)
         available_units = [Infantry, Support, Heavy, AntiTank]
         chosen_unit = random.choice(available_units)
         unit_instance = chosen_unit(age=self.player.age, team=self.player.team)
