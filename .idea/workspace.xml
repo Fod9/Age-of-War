@@ -5,54 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/game/menu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/backgrounds/1/background.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/backgrounds/1/background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/backgrounds/3/background.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/backgrounds/3/background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/base/1/B_Base.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/1/B_Base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/base/1/R_Base.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/1/R_Base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/base/3/blue_base.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/3/blue_base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/base/3/red_base.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/base/3/red_base.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/hud/AntiTank.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/AntiTank.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/hud/Heavy.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/Heavy.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/hud/Infantry.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/Infantry.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/hud/Support.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/Support.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/B_AntiTank.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/B_AntiTank.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/B_Heavy.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/B_Heavy.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/B_Infantry.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/B_Infantry.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/B_Support.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/B_Support.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/R_AntiTank.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/R_AntiTank.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/R_Heavy.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/R_Heavy.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/R_Infantry.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/R_Infantry.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/1/R_Support.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/1/R_Support.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/B_AntiTank_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/B_AntiTank_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/B_Heavy_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/B_Heavy_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/B_Infantry_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/B_Infantry_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/B_Support_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/B_Support_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/R_AntiTank_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/R_AntiTank_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/R_Heavy_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/R_Heavy_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/R_Infantry_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/R_Infantry_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/2/R_Support_S.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/2/R_Support_S.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/B_AntiTank_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/B_AntiTank_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/B_Heavy_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/B_Heavy_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/B_Infantry_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/B_Infantry_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/B_Support_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/B_Support_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/R_AntiTank_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/R_AntiTank_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/R_Heavy_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/R_Heavy_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/R_Infantry_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/R_Infantry_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/3/R_Support_M.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/3/R_Support_M.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/B_AntiTank_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/B_AntiTank_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/B_Heavy_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/B_Heavy_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/B_Infantry_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/B_Infantry_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/B_Support_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/B_Support_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/R_AntiTank_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/R_AntiTank_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/R_Heavy_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/R_Heavy_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/R_Infantry_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/R_Infantry_F.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/units/4/R_Support_F.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/units/4/R_Support_F.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/players.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/players.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/units.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/units.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +42,7 @@
     "Python.game.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "HUD",
+    "git-widget-placeholder": "menu",
     "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -132,6 +88,7 @@
       <workItem from="1715945843639" duration="11703000" />
       <workItem from="1716285626825" duration="7143000" />
       <workItem from="1716315391689" duration="12549000" />
+      <workItem from="1716540675043" duration="600000" />
     </task>
     <servers />
   </component>

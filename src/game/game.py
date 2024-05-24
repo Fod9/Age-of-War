@@ -13,13 +13,12 @@ class Game:
     blue_player: Player
     mode: str
 
-    def __init__(self, screen, mode="single"):
+    def __init__(self, screen):
         self.age = 1
         self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
         self.screen = screen
         self.running = True
-        self.mode = mode
-
+        self.game_mode = None
         # Initialisation des joueurs
         self.red_player = Player(name="Player 1", team="R", age=self.age)
         self.blue_player = Player(name="Player 2", team="B", age=self.age)
@@ -51,6 +50,12 @@ class Game:
         self.red_player.update(all_units)
         self.blue_player.update(all_units)
 
+    def handle_game_config(self):
+        if self.game_mode == "easy":
+            # Configure the bot to be easy
+            pass
+
+
     def draw(self, screen):
         self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
         screen.blit(self.background, (0, 0))
@@ -65,5 +70,8 @@ class Game:
 
         # Dessiner l'interface utilisateur
         self.hud.draw(screen)
+
+    def set_game_mode(self, game_mode):
+        self.game_mode = game_mode
 
 
