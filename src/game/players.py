@@ -15,9 +15,9 @@ class Player:
         self.queue = []
         self.last_money_update = pygame.time.get_ticks()
 
-    def update(self, all_units: List[Unit]):
+    def update(self, all_units: List[Unit], other_player: "Player"):
         for unit in self.units[:]:
-            unit.update(all_units, self)
+            unit.update(all_units, self, other_player)
 
         # Update money every 5 seconds
         if pygame.time.get_ticks() - self.last_money_update > 500:
