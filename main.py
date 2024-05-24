@@ -33,6 +33,7 @@ reload_event = threading.Event()
 def run_game():
     while True:
         try:
+            # Check if reload is needed
             if reload_event.is_set():
                 reload_event.clear()
                 print("Reloading game module...")
@@ -43,11 +44,14 @@ def run_game():
             print("Starting new game instance...")
             from src.game.game import Game
 
+            # Start the game
+
             menu = Menu(screen)
             game_mode = menu.run()
 
             game = Game(screen)
 
+            # Set the game mode if selected
             if game_mode:
                 game.set_game_mode(game_mode)
                 # Main game loop
