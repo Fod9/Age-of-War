@@ -90,8 +90,10 @@ class Unit:
         # Calculate new position based on team direction
         if self.team == "B":
             new_position = (self.position[0] + x, self.position[1] + y)
+            move_direction = "right"
         else:
             new_position = (self.position[0] - x, self.position[1] + y)
+            move_direction = "left"
 
         # Check if the new position is within the screen bounds
         if 0 <= new_position[0] <= self.screen.get_width() - self.image.get_width() and 0 <= new_position[
@@ -103,11 +105,14 @@ class Unit:
             collision_detected = False
             for unit in units:
                 if unit is not self:
-                    # Skip collision detection for allied units
-                    if unit.team != self.team:
+                    if move_direction == "right" and unit.position[0] > self.position[0]:
                         if unit.collide_rect.colliderect(new_rect):
                             collision_detected = True
-                            break  # If collision is detected, stop checking further
+                            break
+                    elif move_direction == "left" and unit.position[0] < self.position[0]:
+                        if unit.collide_rect.colliderect(new_rect):
+                            collision_detected = True
+                            break # If collision is detected, stop checking further
 
             if not collision_detected:
                 # Update position and rectangle
@@ -175,6 +180,7 @@ class Unit:
 class Infantry(Unit):
     build_time = 1
     price = 10
+
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Infantry.png")
         super().__init__(
@@ -197,6 +203,7 @@ class Infantry(Unit):
 class Support(Unit):
     price = 10
     build_time = 1
+
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Support.png")
         super().__init__(
@@ -219,6 +226,7 @@ class Support(Unit):
 class Heavy(Unit):
     build_time = 3
     price = 25
+
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Heavy.png")
         super().__init__(
@@ -241,6 +249,7 @@ class Heavy(Unit):
 class AntiTank(Unit):
     build_time = 3
     price = 15
+
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_AntiTank.png")
         super().__init__(

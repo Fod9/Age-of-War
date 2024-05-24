@@ -3,20 +3,26 @@ import pygame
 from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
 
+
 class HUD:
     def __init__(self, player: Player):
         self.player = player
         self.font = pygame.font.Font(None, 36)
         self.buttons = []
+        self.upgrade_buttons = []
+        self.upgrade_dialog = None
         self.initialize_buttons()
 
     def initialize_buttons(self):
-        baseline = pygame.display.get_surface().get_height() - 20
-        button_size = pygame.display.get_surface().get_width() // 20
-        size = (button_size, button_size)
+        screen = pygame.display.get_surface()
+        screen_width, screen_height = screen.get_width(), screen.get_height()
+        units_button_size = screen_width // 20
+        upgrade_button_size = units_button_size
+        units_size = (units_button_size, units_button_size)
+        upgrade_size = (upgrade_button_size, upgrade_button_size)
         spacing = 20
 
-        # Chargement des images des boutons et des classes associées à chaque bouton
+        # Initialisation des boutons d'unité
         buttons_data = [
             ("assets/hud/Infantry.png", Infantry, Infantry.build_time, Infantry.price),
             ("assets/hud/Support.png", Support, Support.build_time, Support.price),
@@ -24,14 +30,13 @@ class HUD:
             ("assets/hud/AntiTank.png", AntiTank, AntiTank.build_time, AntiTank.price)
         ]
 
-        # Initialisation des boutons
         for i, (image_path, unit_class, build_time, price) in enumerate(buttons_data):
-            x_position = 100 + i * (button_size + spacing)
-            y_position = baseline - button_size
+            x_position = 100 + i * (units_button_size + spacing)
+            y_position = screen_height - units_button_size - 20
             button = Button(
                 pygame.image.load(image_path),
                 (x_position, y_position),
-                size,
+                units_size,
                 action=lambda unit_class=unit_class: self.player.add_unit(
                     unit_class(age=self.player.age, team=self.player.team)
                 ),
@@ -41,10 +46,113 @@ class HUD:
             )
             self.buttons.append(button)
 
+        # Initialisation des boutons d'amélioration
+        upgrade_buttons_data = [
+            (self.upgrade_selected_unit, "HP"),
+            (self.upgrade_selected_unit, "Damage"),
+            (self.upgrade_selected_unit, "Range"),
+            #(self.upgrade_gold_per_kill, "Gold")
+        ]
+
+        for i, (action, upgrade_type) in enumerate(upgrade_buttons_data):
+            x_position = 20
+            y_position = 100 + i * (upgrade_button_size + spacing)
+            button = Button(
+                pygame.image.load(f"assets/hud/{upgrade_type}.png"),
+                (x_position, y_position),
+                upgrade_size,
+                action=lambda action=action, upgrade_type=upgrade_type: action(upgrade_type),
+                player=self.player
+            )
+            self.upgrade_buttons.append(button)
+
     def draw(self, screen):
         # Draw money
         money_text = self.font.render(f"Money: {self.player.money}", True, (0, 0, 0))
         screen.blit(money_text, (20, 20))
+        # Draw buttons
+        for button in self.buttons + self.upgrade_buttons:
+            button.draw(screen)
+        # Draw upgrade dialog if it's active
+        if self.upgrade_dialog:
+            self.upgrade_dialog.draw(screen)
+
+    def update(self):
+        for button in self.buttons + self.upgrade_buttons:
+            button.update()
+        if self.upgrade_dialog:
+            self.upgrade_dialog.update()
+
+    def handle_event(self, event):
+        for button in self.buttons + self.upgrade_buttons:
+            button.handle_event(event)
+        if self.upgrade_dialog:
+            self.upgrade_dialog.handle_event(event)
+
+    def upgrade_selected_unit(self, upgrade_type: str):
+        # Show the upgrade dialog
+        self.upgrade_dialog = UpgradeDialog(self.player, upgrade_type, self)
+
+    def upgrade_gold_per_kill(self, upgrade_type: str):
+        self.player.upgrade_gold_per_kill()
+
+    def apply_upgrade(self, upgrade_type: str, unit_type: str):
+        if upgrade_type == "HP":
+            self.player.upgrade_hp(unit_type)
+        elif upgrade_type == "Damage":
+            self.player.upgrade_damage(unit_type)
+        elif upgrade_type == "Range":
+            self.player.upgrade_range(unit_type)
+        self.upgrade_dialog = None  # Close the dialog after applying the upgrade
+
+
+class UpgradeDialog:
+    def __init__(self, player: Player, upgrade_type: str, hud: HUD):
+        self.player = player
+        self.upgrade_type = upgrade_type
+        self.hud = hud
+        self.font = pygame.font.Font(None, 36)
+        self.buttons = []
+        self.initialize_buttons()
+
+    def initialize_buttons(self):
+        screen = pygame.display.get_surface()
+        screen_width, screen_height = screen.get_width(), screen.get_height()
+        button_size = screen_width // 20
+        size = (button_size, button_size)
+        spacing = 20
+
+        # Boutons pour sélectionner le type d'unité à améliorer
+        buttons_data = [
+            ("Infantry", Infantry),
+            ("Support", Support),
+            ("Heavy", Heavy),
+            ("AntiTank", AntiTank)
+        ]
+
+        for i, (unit_name, unit_class) in enumerate(buttons_data):
+            x_position = screen_width // 2 - (
+                        button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
+                                     button_size + spacing)
+
+            y_position = screen_height // 2 - button_size // 2
+            button = Button(
+                pygame.image.load(f"assets/hud/{unit_name}.png"),
+                (x_position, y_position),
+                size,
+                action=lambda unit_class=unit_class: self.hud.apply_upgrade(self.upgrade_type, unit_name)
+            )
+            self.buttons.append(button)
+
+    def draw(self, screen):
+        # Draw dialog background
+        #calcul button length
+        button_length = len(self.buttons)
+        size = (button_length * 100, 100)
+        dialog_rect = pygame.Rect(0, 0, size[0], size[1])
+        dialog_rect.center = screen.get_rect().center
+        pygame.draw.rect(screen, (255, 255, 255),
+                         dialog_rect)
         # Draw buttons
         for button in self.buttons:
             button.draw(screen)
@@ -61,7 +169,8 @@ class HUD:
 class Button:
     player: Union[Player, None]
 
-    def __init__(self, image: pygame.Surface, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None, build_time: int = 0, player=None, price=0):
+    def __init__(self, image: pygame.Surface, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None,
+                 build_time: int = 0, player=None, price=0):
         self.image = pygame.transform.scale(image, size)
         self.position = position
         self.size = size
@@ -87,17 +196,43 @@ class Button:
         return self.rect.collidepoint(mouse_pos)
 
     def click(self):
-        # Check if the button is hovered and the player has enough money to buy the unit
-        if self.action and self.cooldown == 0 and self.player.money >= self.price:
+        if self.action and self.cooldown == 0:
             self.action()
-            self.cooldown = self.build_time
-            self.last_click_time = pygame.time.get_ticks()
 
     def update(self):
-        if self.cooldown > 0:
-            current_time = pygame.time.get_ticks()
-            elapsed_time = (current_time - self.last_click_time) / 1000
-            self.cooldown = max(0, self.build_time - int(elapsed_time))
+        pass
+
+    def handle_event(self, event: pygame.event.Event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if self.is_hovered(event.pos):
+                    self.click()
+
+
+class TextButton:
+    def __init__(self, text: str, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None):
+        self.text = text
+        self.position = position
+        self.size = size
+        self.action = action
+        self.rect = pygame.Rect(position, size)
+        self.font = pygame.font.Font(None, 36)
+
+    def draw(self, screen: pygame.Surface):
+        pygame.draw.rect(screen, (0, 128, 0), self.rect)
+        text_surface = self.font.render(self.text, True, (255, 255, 255))
+        screen.blit(text_surface, (self.position[0] + (self.size[0] - text_surface.get_width()) // 2,
+                                   self.position[1] + (self.size[1] - text_surface.get_height()) // 2))
+
+    def is_hovered(self, mouse_pos: Tuple[int, int]) -> bool:
+        return self.rect.collidepoint(mouse_pos)
+
+    def click(self):
+        if self.action:
+            self.action()
+
+    def update(self):
+        pass
 
     def handle_event(self, event: pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN:

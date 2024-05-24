@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/hud/Damage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/HP.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/Range.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/hud/AntiTank.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/AntiTank.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/hud/Heavy.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/Heavy.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/hud/Infantry.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/Infantry.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/hud/Support.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hud/Support.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ai/easy_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/easy_bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/players.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/players.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/units.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/units.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +51,7 @@
     "Python.game.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Units",
+    "git-widget-placeholder": "Upgrades",
     "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

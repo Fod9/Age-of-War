@@ -70,7 +70,7 @@ class Player:
 
         # Update money every 5 seconds
         if pygame.time.get_ticks() - self.last_money_update > 2000:
-            self.money += 1
+            self.money += 2
             self.last_money_update = pygame.time.get_ticks()
 
         # Check if the build time has passed for the first unit in the queue
@@ -84,9 +84,16 @@ class Player:
         self.base.update()
 
     def add_unit(self, unit: Unit):
-        if self.team == "B":
-            print(f"Adding {unit.nom} to the blue player")
         if self.money >= unit.price:
+            # Apply multipliers
+            unit.damage *= self.damage_multiplier[unit.nom]
+            unit.HP *= self.hp_multiplier[unit.nom]
+            unit.range *= self.range_multiplier[unit.nom]
+
+            if self.team == "B":
+                print(f"Unit stats : {unit.damage}, {unit.HP} , {unit.range}")
+                print(f"Unit multipliers : {self.damage_multiplier[unit.nom]}, {self.hp_multiplier[unit.nom]} , {self.range_multiplier[unit.nom]}")
+                print(f"Upgrade cost : {self.damage_upgrade_cost[unit.nom]}, {self.hp_upgrade_cost[unit.nom]} , {self.range_upgrade_cost[unit.nom]}")
             # Check if the unit is already in the queue
             if not any(isinstance(q_unit, unit.__class__) for q_unit in self.queue):
                 unit.build_start_time = pygame.time.get_ticks()
@@ -97,3 +104,22 @@ class Player:
 
     def remove_unit(self, unit: Unit):
         self.units.remove(unit)
+
+    def upgrade_damage(self, unit_type: str):
+        print(f"Upgrading damage for {unit_type}")
+        if self.money >= self.damage_upgrade_cost[unit_type]:
+            self.damage_multiplier[unit_type] += 0.2
+            self.money -= self.damage_upgrade_cost[unit_type]
+            self.damage_upgrade_cost[unit_type] *= 1.5
+
+    def upgrade_hp(self, unit_type: str):
+        if self.money >= self.hp_upgrade_cost[unit_type]:
+            self.hp_multiplier[unit_type] += 0.2
+            self.money -= self.hp_upgrade_cost[unit_type]
+            self.hp_upgrade_cost[unit_type] *= 1.5
+
+    def upgrade_range(self, unit_type: str):
+        if self.money >= self.range_upgrade_cost[unit_type]:
+            self.range_multiplier[unit_type] += 0.2
+            self.money -= self.range_upgrade_cost[unit_type]
+            self.range_upgrade_cost[unit_type] *= 1.5
