@@ -1,11 +1,12 @@
 import random
 
 from src.ai.base_ai import AIBot
+from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
 
 
 class EasyBot(AIBot):
-    def __init__(self, player):
+    def __init__(self, player: Player):
         super().__init__(player)
 
     def perform_actions(self):
@@ -17,3 +18,4 @@ class EasyBot(AIBot):
         chosen_unit = random.choice(available_units)
         new_unit = chosen_unit(age=self.player.age, team=self.player.team)
         self.player.add_unit(new_unit)
+
