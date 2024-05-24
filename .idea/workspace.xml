@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/game/menu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ai/base_ai.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ai/easy_bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +41,7 @@
     "Python.game.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "menu",
+    "git-widget-placeholder": "bot",
     "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -88,7 +87,7 @@
       <workItem from="1715945843639" duration="11703000" />
       <workItem from="1716285626825" duration="7143000" />
       <workItem from="1716315391689" duration="12549000" />
-      <workItem from="1716540675043" duration="600000" />
+      <workItem from="1716540675043" duration="830000" />
     </task>
     <servers />
   </component>
