@@ -1,17 +1,24 @@
+from typing import Union
+
 import pygame
 from src.game.base import Base
 from src.game.units import Infantry, Support, Heavy, AntiTank
 from src.game.players import Player
 from src.game.hud import HUD
+from src.ai.easy_bot import EasyBot
+from src.ai.base_ai import AIBot
+
 
 class Game:
     age: int
     background: pygame.Surface
     screen: pygame.Surface
     running: bool
-    red_player: Player
+    red_player: Union[Player, None]
     blue_player: Player
+    bot: Union[AIBot, None]
     mode: str
+    config_done: bool
 
     def __init__(self, screen):
         self.age = 1
@@ -20,9 +27,11 @@ class Game:
         self.running = True
         self.game_mode = None
         # Initialisation des joueurs
-        self.red_player = Player(name="Player 1", team="R", age=self.age)
-        self.blue_player = Player(name="Player 2", team="B", age=self.age)
+        self.blue_player = Player(name="Player 1", team="B", age=self.age)
+        self.red_player = Player(name="Player 2", team="R", age=self.age)
+        self.bot = None
         self.hud = HUD(self.blue_player)
+        self.config_done = False
 
     def handle_event(self, event):
         if event.type == pygame.VIDEORESIZE:
@@ -46,15 +55,25 @@ class Game:
                 self.hud.handle_event(event)
 
     def update(self):
+        if not self.config_done and self.game_mode:
+            self.handle_game_config()
+            self.config_done = True
         all_units = self.red_player.units + self.blue_player.units
+        if self.bot:
+            self.bot.perform_actions()
         self.red_player.update(all_units)
+
         self.blue_player.update(all_units)
 
     def handle_game_config(self):
         if self.game_mode == "easy":
-            # Configure the bot to be easy
+            self.bot = EasyBot(self.red_player)
+        elif self.game_mode == "medium":
             pass
-
+        elif self.game_mode == "hard":
+            pass
+        elif self.game_mode == "multiplayer":
+            pass
 
     def draw(self, screen):
         self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
@@ -73,5 +92,3 @@ class Game:
 
     def set_game_mode(self, game_mode):
         self.game_mode = game_mode
-
-

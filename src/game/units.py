@@ -57,6 +57,9 @@ class Unit:
         self.team = team
         self.max_health = HP
 
+    def __str__(self):
+        return f"{self.nom} (HP: {self.HP}, Price: {self.price}, Damage: {self.damage}, Attack Speed: {self.attack_speed}, Range: {self.range}, Gold Value: {self.gold_value}, Walk Speed: {self.walk_speed}, Build Time: {self.build_time})"
+
     def handle_resize(self, screen):
         self.screen = screen
         self.position = (self.position[0], screen.get_height() - 300)

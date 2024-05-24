@@ -11,21 +11,9 @@ class Player:
         self.age = age
         self.money = 30
         self.base = Base(name=f"{team}_base", owner=team, age=self.age)
-        self.units = self._initialize_units()
+        self.units = []
         self.queue = []
         self.last_money_update = pygame.time.get_ticks()
-
-    def _initialize_units(self) -> List[Unit]:
-        # Initialize units based on the team and age
-        units = []
-        if self.team == "R":
-            units = [
-                Infantry(age=self.age, team=self.team),
-                Infantry(age=self.age, team=self.team),
-                Infantry(age=self.age, team=self.team),
-                AntiTank(age=self.age, team=self.team)
-            ]
-        return units
 
     def update(self, all_units: List[Unit]):
         for unit in self.units[:]:
