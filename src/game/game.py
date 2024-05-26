@@ -1,8 +1,6 @@
 from typing import Union
 
 import pygame
-from src.game.base import Base
-from src.game.units import Infantry, Support, Heavy, AntiTank
 from src.game.players import Player
 from src.game.hud import HUD
 from src.ai.easy_bot import EasyBot

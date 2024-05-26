@@ -1,6 +1,9 @@
 # src/game/base.py
+from typing import Union, Tuple
 
 import pygame
+
+from src.game.turrets_slots import Slot
 
 
 class Base:
@@ -8,7 +11,9 @@ class Base:
         self.name = name
         self.owner = owner
         self.units = []
+        self.slots = [{"slot": Union[None, "Slot"], "position": Tuple[int, int]} for _ in range(4)]
         self.turrets = []
+        self.next_slot_price = 1000
         self.age = age
         self.h_percent = 0.8
         self.v_percent = 0.8
@@ -46,7 +51,6 @@ class Base:
         if self.HP <= 0:
             self.destroy()
 
-
     def destroy(self):
         self.HP = 0
         # Message on screen
@@ -73,7 +77,6 @@ class Base:
                 self.HP = self.max_health
             self.last_repair = current_time
 
-
     def draw(self, screen):
         # Define the percentage of the screen the base will take
         self.define_render_params()
@@ -90,10 +93,8 @@ class Base:
             castle_x = 0
             castle_y = (screen_height - screen_height * self.h_percent) * self.heigth_offset
 
-
         castle_width = screen_width * self.h_percent
         castle_height = screen_height * self.h_percent
-
 
         # Resize the base
         scaled_base_image = pygame.transform.scale(self.base_image, (int(castle_width), int(castle_height)))
@@ -119,10 +120,35 @@ class Base:
         text_rect = text.get_rect(center=(health_bar_x + health_bar_width / 2, health_bar_y - 20))
         screen.blit(text, text_rect)
 
-
         # Draw the health bar background
         pygame.draw.rect(screen, (255, 0, 0), (health_bar_x, health_bar_y, health_bar_width, health_bar_height))
 
         # Draw the health bar foreground
         pygame.draw.rect(screen, (0, 255, 0),
                          (health_bar_x, health_bar_y, health_bar_width * health_percentage, health_bar_height))
+
+    def add_slot(self, money):
+        if money >= self.next_slot_price:
+            for slot in self.slots:
+                if slot["slot"] is None:
+                    slot["slot"] = Slot
+                    money -= self.next_slot_price
+                    self.next_slot_price *= 2
+        return money
+
+    def add_turret(self, turret):
+        for s in self.slots:
+            # Add the turret to the first available slot
+            if s["slot"] is not None:
+                # Check if the slot already has a turret
+                if s["slot"].turret is False:
+                    # Add the turret to the slot
+                    s["slot"].add_turret()
+                self.turrets.append(turret)
+                break
+
+    def remove_turret(self, turret):
+        for s in self.slots:
+            if s["slot"] is not None:
+                s["slot"].remove_turret(turret)
+                break

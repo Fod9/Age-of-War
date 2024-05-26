@@ -112,7 +112,7 @@ class Unit:
                     elif move_direction == "left" and unit.position[0] < self.position[0]:
                         if unit.collide_rect.colliderect(new_rect):
                             collision_detected = True
-                            break # If collision is detected, stop checking further
+                            break  # If collision is detected, stop checking further
 
             if not collision_detected:
                 # Update position and rectangle
@@ -127,7 +127,7 @@ class Unit:
         base.take_damage(self.damage)
         self.last_attack_time = pygame.time.get_ticks()
 
-    def take_damage(self, damage: float, attacker: "Unit"):
+    def take_damage(self, damage: float, attacker: Union["Unit", None]):
         # Check if the attacker is weak against this unit
         if attacker.nom in self.weak_against:
             damage *= 2

@@ -10,6 +10,8 @@ class HUD:
         self.font = pygame.font.Font(None, 36)
         self.buttons = []
         self.upgrade_buttons = []
+        self.slot_buttons = []
+        self.turret_buttons = []
         self.upgrade_dialog = None
         self.initialize_buttons()
 
@@ -66,6 +68,26 @@ class HUD:
             )
             self.upgrade_buttons.append(button)
 
+
+        # Initialisation des boutons de slot
+        slot_buttons_data = [
+            ("assets/hud/Heavy.png", self.add_slot),
+            ("assets/hud/Heavy.png", self.sell_turret),
+            ("assets/hud/Heavy.png", self.buy_turret)
+        ]
+
+        for i, (image_path, action) in enumerate(slot_buttons_data):
+            x_position = 20
+            y_position = 200 + i * (upgrade_button_size + spacing)
+            button = Button(
+                pygame.image.load(image_path),
+                (x_position, y_position),
+                upgrade_size,
+                action=lambda action=action: action(),
+                player=self.player
+            )
+            self.slot_buttons.append(button)
+
     def draw(self, screen):
         # Draw money
         money_text = self.font.render(f"Money: {self.player.money}", True, (0, 0, 0))
@@ -92,6 +114,15 @@ class HUD:
     def upgrade_selected_unit(self, upgrade_type: str):
         # Show the upgrade dialog
         self.upgrade_dialog = UpgradeDialog(self.player, upgrade_type, self)
+
+    def add_slot(self):
+        self.player.add_slot()
+
+    def sell_turret(self):
+        self.sell_turret_dialoge = SellTurretDialog(self.player, self)
+
+    def buy_turret(self):
+        self.player.buy_turret = BuyTurretDialog(self.player, self)
 
     def upgrade_gold_per_kill(self, upgrade_type: str):
         self.player.upgrade_gold_per_kill()
@@ -165,6 +196,64 @@ class UpgradeDialog:
         for button in self.buttons:
             button.handle_event(event)
 
+class SellTurretDialog:
+    def __init__(self, player: Player, upgrade_type: str, hud: HUD):
+        self.player = player
+        self.upgrade_type = upgrade_type
+        self.hud = hud
+        self.font = pygame.font.Font(None, 36)
+        self.buttons = []
+        self.initialize_buttons()
+
+    def initialize_buttons(self):
+        screen = pygame.display.get_surface()
+        screen_width, screen_height = screen.get_width(), screen.get_height()
+        button_size = screen_width // 20
+        size = (button_size, button_size)
+        spacing = 20
+
+        # Boutons pour sélectionner le type d'unité à améliorer
+        buttons_data = [
+            ("Infantry", Infantry),
+            ("Support", Support),
+            ("Heavy", Heavy),
+            ("AntiTank", AntiTank)
+        ]
+
+        for i, (unit_name, unit_class) in enumerate(buttons_data):
+            x_position = screen_width // 2 - (
+                        button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
+                                     button_size + spacing)
+
+            y_position = screen_height // 2 - button_size // 2
+            button = Button(
+                pygame.image.load(f"assets/hud/{unit_name}.png"),
+                (x_position, y_position),
+                size,
+                action=lambda unit_class=unit_class: self.hud.apply_upgrade(self.upgrade_type, unit_name)
+            )
+            self.buttons.append(button)
+
+    def draw(self, screen):
+        # Draw dialog background
+        #calcul button length
+        button_length = len(self.buttons)
+        size = (button_length * 100, 100)
+        dialog_rect = pygame.Rect(0, 0, size[0], size[1])
+        dialog_rect.center = screen.get_rect().center
+        pygame.draw.rect(screen, (255, 255, 255),
+                         dialog_rect)
+        # Draw buttons
+        for button in self.buttons:
+            button.draw(screen)
+
+    def update(self):
+        for button in self.buttons:
+            button.update()
+
+    def handle_event(self, event):
+        for button in self.buttons:
+            button.handle_event(event)
 
 class Button:
     player: Union[Player, None]

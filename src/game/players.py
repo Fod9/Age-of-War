@@ -1,9 +1,5 @@
 import pygame
-from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
-from src.game.base import Base
-from typing import List
 
-import pygame
 from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
 from src.game.base import Base
 from typing import List
@@ -92,8 +88,10 @@ class Player:
 
             if self.team == "B":
                 print(f"Unit stats : {unit.damage}, {unit.HP} , {unit.range}")
-                print(f"Unit multipliers : {self.damage_multiplier[unit.nom]}, {self.hp_multiplier[unit.nom]} , {self.range_multiplier[unit.nom]}")
-                print(f"Upgrade cost : {self.damage_upgrade_cost[unit.nom]}, {self.hp_upgrade_cost[unit.nom]} , {self.range_upgrade_cost[unit.nom]}")
+                print(
+                    f"Unit multipliers : {self.damage_multiplier[unit.nom]}, {self.hp_multiplier[unit.nom]} , {self.range_multiplier[unit.nom]}")
+                print(
+                    f"Upgrade cost : {self.damage_upgrade_cost[unit.nom]}, {self.hp_upgrade_cost[unit.nom]} , {self.range_upgrade_cost[unit.nom]}")
             # Check if the unit is already in the queue
             if not any(isinstance(q_unit, unit.__class__) for q_unit in self.queue):
                 unit.build_start_time = pygame.time.get_ticks()
@@ -123,3 +121,18 @@ class Player:
             self.range_multiplier[unit_type] += 0.2
             self.money -= self.range_upgrade_cost[unit_type]
             self.range_upgrade_cost[unit_type] *= 1.5
+
+    def add_slot(self):
+        player_money = self.money
+        self.money = self.base.add_slot(self.money)
+        if player_money == self.money:
+            print("Not enough money to add a slot")
+
+    def add_turret(self, turret: "Turret"):
+        if self.money >= turret.price:
+            self.money -= turret.price
+            self.base.add_turret(turret)
+
+    def sell_turret(self, turret: "Turret"):
+        self.money += (turret.price * 0.5)
+        self.base.remove_turret(turret)
