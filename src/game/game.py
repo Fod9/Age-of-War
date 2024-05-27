@@ -21,7 +21,7 @@ class Game:
     config_done: bool
 
     def __init__(self, screen):
-        self.age = 1
+        self.age = 4
         self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
         self.screen = screen
         self.running = True
