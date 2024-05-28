@@ -1,5 +1,6 @@
 import pygame
 
+from src.game.turrets import Turret
 from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
 from src.game.base import Base
 from typing import List
@@ -122,17 +123,30 @@ class Player:
             self.money -= self.range_upgrade_cost[unit_type]
             self.range_upgrade_cost[unit_type] *= 1.5
 
-    def add_slot(self):
-        player_money = self.money
-        self.money = self.base.add_slot(self.money)
-        if player_money == self.money:
-            print("Not enough money to add a slot")
+    def add_slot(self, team: str):
+        # Check if the player has enough money to add a slot
+        if self.money >= self.base.next_slot_price:
 
-    def add_turret(self, turret: "Turret"):
+            # Check if the player has reached the maximum number of slots
+            if self.base.add_slot(team):
+
+                # Deduct the cost of the slot from the player's money ONLY if the slot was added
+                self.money -= self.base.next_slot_price
+            else:
+                print("You have reached the maximum number of slots!")
+        else:
+            print("Not enough money to add slot!")
+
+    def add_turret(self, turret: Turret):
         if self.money >= turret.price:
-            self.money -= turret.price
-            self.base.add_turret(turret)
+            if self.base.add_turret(turret):
+                self.money -= turret.price
+            else:
+                print("No available slots!")
+        else:
+            print("Not enough money to add turret!")
 
-    def sell_turret(self, turret: "Turret"):
+
+    def sell_turret(self, turret: Turret):
         self.money += (turret.price * 0.5)
         self.base.remove_turret(turret)

@@ -16,7 +16,7 @@ class Turret:
     team: str
 
     def __init__(self, nom: str, price: float, damage: float, attack_speed: float, range: float,
-                 image: pygame.Surface, age: int = 1, team: str = "B"):
+                 image: pygame.Surface, age: int = 1, team: str = "B", position: Tuple[float, float] = (0, 0)):
         self.id = id(self)
         self.nom = nom
         self.price = price
@@ -26,18 +26,7 @@ class Turret:
         self.base_image = image
         self.image = pygame.transform.scale(image, (int(image.get_width() * .5), int(image.get_height() * .5)))
         self.screen = pygame.display.get_surface()
-        self.build_start_time = None
-
-        screen_height = self.screen.get_height()
-        screen_width = self.screen.get_width()
-        y_position = screen_height - 300
-
-        if team == "B":
-            x_position = int(screen_width * 0.05)
-        else:
-            x_position = screen_width - int(screen_width * 0.05) - self.image.get_width()
-
-        self.position = (x_position, y_position)
+        self.position = position
         self.collide_rect = self.image.get_rect(topleft=self.position)
         self.last_attack_time = 0
         self.age = age
@@ -78,13 +67,13 @@ class Turret:
 
 
 class Cannon(Turret):
-    price = 100
+    price = 1
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/turrets/{age}/{team}_Cannon.png")
         super().__init__(
             "Cannon",
-            100,
+            1,
             20,
             2,
             200,
@@ -95,13 +84,13 @@ class Cannon(Turret):
 
 
 class Laser(Turret):
-    price = 200
+    price = 2
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/turrets/{age}/{team}_Laser.png")
         super().__init__(
             "Laser",
-            200,
+            2,
             10,
             0.5,
             300,
@@ -112,13 +101,13 @@ class Laser(Turret):
 
 
 class Missile(Turret):
-    price = 300
+    price = 3
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/turrets/{age}/{team}_Missile.png")
         super().__init__(
             "Missile",
-            300,
+            3,
             30,
             3,
             250,

@@ -85,6 +85,13 @@ class Game:
         for unit in self.red_player.units + self.blue_player.units:
             unit.draw(screen)
 
+        for turret_slots in self.red_player.base.slots + self.blue_player.base.slots:
+            if turret_slots["slot"]:
+                turret_slots["slot"].draw(screen)
+
+        for turret in self.red_player.base.turrets + self.blue_player.base.turrets:
+            turret.draw(screen)
+
         # Dessiner l'interface utilisateur
         self.hud.draw(screen)
 

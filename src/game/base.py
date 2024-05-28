@@ -11,9 +11,10 @@ class Base:
         self.name = name
         self.owner = owner
         self.units = []
-        self.slots = [{"slot": Union[None, "Slot"], "position": Tuple[int, int]} for _ in range(4)]
+        self.slots = [{"slot": None, "position": (i*100, 100)} for i in range(4)]
         self.turrets = []
-        self.next_slot_price = 1000
+        self.next_slot_price = 15
+        self.next_slot_pos = 300
         self.age = age
         self.h_percent = 0.8
         self.v_percent = 0.8
@@ -127,28 +128,37 @@ class Base:
         pygame.draw.rect(screen, (0, 255, 0),
                          (health_bar_x, health_bar_y, health_bar_width * health_percentage, health_bar_height))
 
-    def add_slot(self, money):
-        if money >= self.next_slot_price:
-            for slot in self.slots:
-                if slot["slot"] is None:
-                    slot["slot"] = Slot
-                    money -= self.next_slot_price
-                    self.next_slot_price *= 2
-        return money
+    def add_slot(self, team: str):
+        for slot in self.slots:
+            if slot["slot"] is None:
+                print(team)
+                slot["slot"] = Slot(team=team, y_position=self.next_slot_pos)
+                print("Slot added!")
+                print(slot["slot"].turret)
+                self.next_slot_price *= 2
+                self.next_slot_pos += 100
+                return True
+        return False
 
     def add_turret(self, turret):
         for s in self.slots:
-            # Add the turret to the first available slot
+            # Check if the slot is not empty
             if s["slot"] is not None:
-                # Check if the slot already has a turret
+                # Check if the slot does not have a turret
                 if s["slot"].turret is False:
                     # Add the turret to the slot
                     s["slot"].add_turret()
-                self.turrets.append(turret)
-                break
+                    turret.position = s["slot"].position
+                    self.turrets.append(turret)
+                    print("Turret added!")
+                    print(turret)
+                    return True
+        return False
 
     def remove_turret(self, turret):
         for s in self.slots:
             if s["slot"] is not None:
-                s["slot"].remove_turret(turret)
+                if s["slot"].turret:
+                    s["slot"].remove_turret(turret)
+                    self.turrets.remove(turret)
                 break
