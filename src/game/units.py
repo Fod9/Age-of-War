@@ -180,6 +180,7 @@ class Unit:
 class Infantry(Unit):
     build_time = 1
     price = 10
+    weak_against = ["Heavy"]
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Infantry.png")
@@ -203,6 +204,7 @@ class Infantry(Unit):
 class Support(Unit):
     price = 10
     build_time = 1
+    weak_against = ["Infantry"]
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Support.png")
@@ -226,6 +228,7 @@ class Support(Unit):
 class Heavy(Unit):
     build_time = 3
     price = 25
+    weak_against = ["AntiTank"]
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Heavy.png")
@@ -249,6 +252,7 @@ class Heavy(Unit):
 class AntiTank(Unit):
     build_time = 3
     price = 15
+    weak_against = ["Heavy"]
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_AntiTank.png")

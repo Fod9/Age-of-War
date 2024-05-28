@@ -88,12 +88,9 @@ class Player:
             # Apply multipliers
             unit.damage *= self.damage_multiplier[unit.nom]
             unit.HP *= self.hp_multiplier[unit.nom]
+            unit.max_health *= self.hp_multiplier[unit.nom]
             unit.range *= self.range_multiplier[unit.nom]
 
-            if self.team == "B":
-                print(f"Unit stats : {unit.damage}, {unit.HP} , {unit.range}")
-                print(f"Unit multipliers : {self.damage_multiplier[unit.nom]}, {self.hp_multiplier[unit.nom]} , {self.range_multiplier[unit.nom]}")
-                print(f"Upgrade cost : {self.damage_upgrade_cost[unit.nom]}, {self.hp_upgrade_cost[unit.nom]} , {self.range_upgrade_cost[unit.nom]}")
             # Check if the unit is already in the queue
             if not any(isinstance(q_unit, unit.__class__) for q_unit in self.queue):
                 unit.build_start_time = pygame.time.get_ticks()

@@ -61,7 +61,7 @@ class HUD:
                 pygame.image.load(f"assets/hud/{upgrade_type}.png"),
                 (x_position, y_position),
                 upgrade_size,
-                action=lambda action=action, upgrade_type=upgrade_type: action(upgrade_type),
+                action=lambda upgrade_type=upgrade_type: action(upgrade_type),
                 player=self.player
             )
             self.upgrade_buttons.append(button)
@@ -97,6 +97,7 @@ class HUD:
         self.player.upgrade_gold_per_kill()
 
     def apply_upgrade(self, upgrade_type: str, unit_type: str):
+        print(f"Applying upgrade {upgrade_type} to {unit_type}")
         if upgrade_type == "HP":
             self.player.upgrade_hp(unit_type)
         elif upgrade_type == "Damage":
@@ -140,7 +141,7 @@ class UpgradeDialog:
                 pygame.image.load(f"assets/hud/{unit_name}.png"),
                 (x_position, y_position),
                 size,
-                action=lambda unit_class=unit_class: self.hud.apply_upgrade(self.upgrade_type, unit_name)
+                action=lambda unit_class=unit_name: self.hud.apply_upgrade(self.upgrade_type, unit_class)
             )
             self.buttons.append(button)
 

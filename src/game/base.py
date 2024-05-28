@@ -13,8 +13,8 @@ class Base:
         self.h_percent = 0.8
         self.v_percent = 0.8
         self.heigth_offset = 1
-        self.HP = 4000
-        self.max_health = 4000
+        self.HP = 500
+        self.max_health = 500
         self.base_image = pygame.image.load(f'assets/base/{self.age}/{self.owner}_Base.png').convert_alpha()
         self.position = self.init_position()
         self.last_repair = pygame.time.get_ticks()

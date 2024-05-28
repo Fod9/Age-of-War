@@ -6,6 +6,7 @@ from src.game.units import Infantry, Support, Heavy, AntiTank
 from src.game.players import Player
 from src.game.hud import HUD
 from src.ai.easy_bot import EasyBot
+from src.ai.medium_bot import Medium_bot
 from src.ai.base_ai import AIBot
 
 
@@ -21,7 +22,7 @@ class Game:
     config_done: bool
 
     def __init__(self, screen):
-        self.age = 2
+        self.age = 3
         self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
         self.screen = screen
         self.running = True
@@ -60,7 +61,7 @@ class Game:
             self.config_done = True
         all_units = self.red_player.units + self.blue_player.units
         if self.bot:
-            self.bot.perform_actions()
+            self.bot.perform_actions(all_units, self.blue_player)
         self.red_player.update(all_units, self.blue_player)
         self.blue_player.update(all_units, self.red_player)
         self.hud.update()
@@ -68,8 +69,8 @@ class Game:
     def handle_game_config(self):
         if self.game_mode == "easy":
             self.bot = EasyBot(self.red_player)
-        elif self.game_mode == "medium":
-            pass
+        elif self.game_mode == "intermediate":
+            self.bot = Medium_bot(self.red_player)
         elif self.game_mode == "hard":
             pass
         elif self.game_mode == "multiplayer":
