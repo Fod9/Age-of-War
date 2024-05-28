@@ -1,9 +1,6 @@
 import pygame
-from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
-from src.game.base import Base
-from typing import List
 
-import pygame
+from src.game.turrets import Turret
 from src.game.units import Infantry, Support, Heavy, AntiTank, Unit
 from src.game.base import Base
 from typing import List
@@ -95,6 +92,12 @@ class Player:
             unit.max_health *= self.hp_multiplier[unit.nom]
             unit.range *= self.range_multiplier[unit.nom]
 
+            if self.team == "B":
+                print(f"Unit stats : {unit.damage}, {unit.HP} , {unit.range}")
+                print(
+                    f"Unit multipliers : {self.damage_multiplier[unit.nom]}, {self.hp_multiplier[unit.nom]} , {self.range_multiplier[unit.nom]}")
+                print(
+                    f"Upgrade cost : {self.damage_upgrade_cost[unit.nom]}, {self.hp_upgrade_cost[unit.nom]} , {self.range_upgrade_cost[unit.nom]}")
             # Check if the unit is already in the queue
             if not any(isinstance(q_unit, unit.__class__) for q_unit in self.queue):
                 unit.build_start_time = pygame.time.get_ticks()
@@ -137,6 +140,35 @@ class Player:
             self.range_multiplier[unit_type] += 0.2
             self.money -= self.range_upgrade_cost[unit_type]
             self.range_upgrade_cost[unit_type] *= 1.5
+
+    def add_slot(self, team: str):
+        # Check if the player has enough money to add a slot
+        if self.money >= self.base.next_slot_price:
+
+            # Check if the player has reached the maximum number of slots
+            if self.base.add_slot(team):
+
+                # Deduct the cost of the slot from the player's money ONLY if the slot was added
+                self.money -= self.base.next_slot_price
+                self.base.next_slot_price *= 2
+            else:
+                print("You have reached the maximum number of slots!")
+        else:
+            print("Not enough money to add slot!")
+
+    def add_turret(self, turret: Turret):
+        if self.money >= turret.price:
+            if self.base.add_turret(turret):
+                self.money -= turret.price
+            else:
+                print("No available slots!")
+        else:
+            print("Not enough money to add turret!")
+
+
+    def sell_turret(self, turret: Turret):
+        self.money += (turret.price * 0.5)
+        self.base.remove_turret(turret)
 
     def upgrade_gold_per_kill(self):
         if self.money >= self.gold_upgrade_cost:

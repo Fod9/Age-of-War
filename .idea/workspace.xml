@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/hud/Gold.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ai/hard_bot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/slots/slot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/turrets/1/B_Cannon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/turrets/1/B_Laser.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/turrets/1/B_Minigun.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/turrets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/turrets_slots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Age Of War.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Age Of War.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/easy_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/easy_bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/players.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/players.py" afterDir="false" />
@@ -46,7 +54,7 @@
     "Python.game.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Upgrades",
+    "git-widget-placeholder": "Merging mergeTurrets",
     "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -128,6 +136,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Age_Of_War$game.coverage" NAME="game Coverage Results" MODIFIED="1715942988618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/game" />

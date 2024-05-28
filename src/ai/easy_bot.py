@@ -9,7 +9,7 @@ class EasyBot(AIBot):
     def __init__(self, player: Player):
         super().__init__(player)
 
-    def perform_actions(self, all_units):
+    def perform_actions(self, all_units, other_player):
         if random.random() < 0.5:
             self.spawn_unit()
 
