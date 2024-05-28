@@ -1,12 +1,11 @@
 from typing import Union
 
 import pygame
-from src.game.base import Base
-from src.game.units import Infantry, Support, Heavy, AntiTank
 from src.game.players import Player
 from src.game.hud import HUD
 from src.ai.easy_bot import EasyBot
 from src.ai.medium_bot import Medium_bot
+from src.ai.hard_bot import HardBot
 from src.ai.base_ai import AIBot
 
 
@@ -72,7 +71,7 @@ class Game:
         elif self.game_mode == "intermediate":
             self.bot = Medium_bot(self.red_player)
         elif self.game_mode == "hard":
-            pass
+            self.bot = HardBot(self.red_player)
         elif self.game_mode == "multiplayer":
             pass
 

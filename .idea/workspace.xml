@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ai/medium_bot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/hud/Gold.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ai/hard_bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ai/base_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/base_ai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ai/easy_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/easy_bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/players.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/players.py" afterDir="false" />
@@ -49,7 +47,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Upgrades",
-    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/base/4",
+    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,11 +59,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/hud" />
       <recent name="$PROJECT_DIR$/assets/base/4" />
       <recent name="$PROJECT_DIR$/assets/backgrounds/4" />
       <recent name="$PROJECT_DIR$/assets/base/2" />
       <recent name="$PROJECT_DIR$/assets/backgrounds/2" />
-      <recent name="$PROJECT_DIR$/assets/hud" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/backgrounds/1" />
@@ -130,17 +128,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/game/units.py</url>
-          <line>159</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Age_Of_War$game.coverage" NAME="game Coverage Results" MODIFIED="1715942988618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/game" />

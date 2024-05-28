@@ -51,7 +51,7 @@ class HUD:
             (self.upgrade_selected_unit, "HP"),
             (self.upgrade_selected_unit, "Damage"),
             (self.upgrade_selected_unit, "Range"),
-            #(self.upgrade_gold_per_kill, "Gold")
+            (self.upgrade_gold_per_kill, "Gold")
         ]
 
         for i, (action, upgrade_type) in enumerate(upgrade_buttons_data):
@@ -107,6 +107,7 @@ class HUD:
         self.upgrade_dialog = None  # Close the dialog after applying the upgrade
 
 
+
 class UpgradeDialog:
     def __init__(self, player: Player, upgrade_type: str, hud: HUD):
         self.player = player
@@ -128,7 +129,8 @@ class UpgradeDialog:
             ("Infantry", Infantry),
             ("Support", Support),
             ("Heavy", Heavy),
-            ("AntiTank", AntiTank)
+            ("AntiTank", AntiTank),
+            ("Gold", "")
         ]
 
         for i, (unit_name, unit_class) in enumerate(buttons_data):
@@ -192,16 +194,27 @@ class Button:
             cooldown_text = pygame.font.Font(None, 36).render(str(self.cooldown), True, (255, 255, 255))
             screen.blit(cooldown_text, (self.position[0] + self.size[0] // 2 - cooldown_text.get_width() // 2,
                                         self.position[1] + self.size[1] // 2 - cooldown_text.get_height() // 2))
+        elif self.price and self.player.money < self.price:
+
+            overlay = pygame.Surface(self.size, pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 150))
+            screen.blit(overlay, self.position)
 
     def is_hovered(self, mouse_pos: Tuple[int, int]) -> bool:
         return self.rect.collidepoint(mouse_pos)
 
     def click(self):
-        if self.action and self.cooldown == 0:
+        if self.action and self.cooldown == 0 and (not self.price or self.player.money >= self.price):
+            self.cooldown = self.build_time
+            self.last_click_time = pygame.time.get_ticks()
             self.action()
 
     def update(self):
-        pass
+        # Update cooldown
+        if self.cooldown > 0:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_click_time > self.cooldown * 1000:
+                self.cooldown = 0
 
     def handle_event(self, event: pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN:

@@ -43,6 +43,8 @@ class Player:
             "AntiTank": 1
         }
 
+        self.gold_multiplier = 1
+
         self.damage_upgrade_cost = {
             "Infantry": 10,
             "Support": 10,
@@ -63,6 +65,8 @@ class Player:
             "Heavy": 10,
             "AntiTank": 10
         }
+
+        self.gold_upgrade_cost = 10
 
     def update(self, all_units: List[Unit], other_player: "Player"):
         for unit in self.units[:]:
@@ -102,8 +106,21 @@ class Player:
     def remove_unit(self, unit: Unit):
         self.units.remove(unit)
 
+    def gain_money(self, amount: int):
+        self.money += amount * self.gold_multiplier
+
+    def can_afford_upgrade(self, unit_type: str, upgrade_type: str):
+        if upgrade_type == "Damage":
+            return self.money >= self.damage_upgrade_cost[unit_type]
+        elif upgrade_type == "HP":
+            return self.money >= self.hp_upgrade_cost[unit_type]
+        elif upgrade_type == "Range":
+            return self.money >= self.range_upgrade_cost[unit_type]
+        elif upgrade_type == "Gold":
+            return self.money >= self.gold_upgrade_cost
+
+
     def upgrade_damage(self, unit_type: str):
-        print(f"Upgrading damage for {unit_type}")
         if self.money >= self.damage_upgrade_cost[unit_type]:
             self.damage_multiplier[unit_type] += 0.2
             self.money -= self.damage_upgrade_cost[unit_type]
@@ -120,3 +137,9 @@ class Player:
             self.range_multiplier[unit_type] += 0.2
             self.money -= self.range_upgrade_cost[unit_type]
             self.range_upgrade_cost[unit_type] *= 1.5
+
+    def upgrade_gold_per_kill(self):
+        if self.money >= self.gold_upgrade_cost:
+            self.gold_multiplier += 0.2
+            self.money -= self.gold_upgrade_cost
+            self.gold_upgrade_cost *= 3

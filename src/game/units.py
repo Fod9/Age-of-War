@@ -137,7 +137,7 @@ class Unit:
     def die(self, player, other_player):
         if self in player.units:
             player.units.remove(self)
-            other_player.money += self.gold_value
+            other_player.gain_money(self.gold_value)
 
     def update(self, units: list, player, other_player):
         if self.HP <= 0:
