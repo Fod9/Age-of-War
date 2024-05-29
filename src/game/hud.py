@@ -2,7 +2,6 @@ from typing import Tuple, Callable, Union
 import pygame
 from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
-from src.game.turrets import Cannon, Minigun, Laser
 
 
 class HUD:
@@ -11,11 +10,7 @@ class HUD:
         self.font = pygame.font.Font(None, 36)
         self.buttons = []
         self.upgrade_buttons = []
-        self.slot_buttons = []
-        self.turret_buttons = []
         self.upgrade_dialog = None
-        self.sell_turret_dialog = None
-        self.buy_turret_dialog = None
         self.initialize_buttons()
 
     def initialize_buttons(self):
@@ -71,76 +66,32 @@ class HUD:
             )
             self.upgrade_buttons.append(button)
 
-        # Initialisation des boutons de slot
-        slot_buttons_data = [
-            self.add_slot,
-            self.sell_turret,
-            self.buy_turret
-        ]
-
-        for i, (action) in enumerate(slot_buttons_data):
-            x_position = 100
-            y_position = 100 + i * (upgrade_button_size + spacing)
-            button = Button(
-                pygame.image.load(f"assets/hud/Heavy.png"),
-                (x_position, y_position),
-                upgrade_size,
-                action=lambda action=action: action(),
-                player=self.player
-            )
-            self.slot_buttons.append(button)
-
     def draw(self, screen):
         # Draw money
         money_text = self.font.render(f"Money: {self.player.money}", True, (0, 0, 0))
         screen.blit(money_text, (20, 20))
         # Draw buttons
-        for button in self.buttons + self.upgrade_buttons + self.slot_buttons:
+        for button in self.buttons + self.upgrade_buttons:
             button.draw(screen)
         # Draw upgrade dialog if it's active
         if self.upgrade_dialog:
             self.upgrade_dialog.draw(screen)
 
-        # if self.sell_turret_dialog:
-        # self.sell_turret_dialog.draw(screen)
-
-        if self.buy_turret_dialog:
-            self.buy_turret_dialog.draw(screen)
-
     def update(self):
-        for button in self.buttons + self.upgrade_buttons + self.slot_buttons:
+        for button in self.buttons + self.upgrade_buttons:
             button.update()
         if self.upgrade_dialog:
             self.upgrade_dialog.update()
 
-        # if self.sell_turret_dialog:
-        # self.sell_turret_dialog.update()
-
-        if self.buy_turret_dialog:
-            self.buy_turret_dialog.update()
-
     def handle_event(self, event):
-        for button in self.buttons + self.upgrade_buttons + self.slot_buttons:
+        for button in self.buttons + self.upgrade_buttons:
             button.handle_event(event)
         if self.upgrade_dialog:
             self.upgrade_dialog.handle_event(event)
-        if self.sell_turret_dialog:
-            self.sell_turret_dialog.handle_event(event)
-        if self.buy_turret_dialog:
-            self.buy_turret_dialog.handle_event(event)
 
     def upgrade_selected_unit(self, upgrade_type: str):
         # Show the upgrade dialog
         self.upgrade_dialog = UpgradeDialog(self.player, upgrade_type, self)
-
-    def add_slot(self):
-        self.player.add_slot(team=self.player.team)
-
-    def sell_turret(self):
-        self.sell_turret_dialog = SellTurretDialog(self.player, self)
-
-    def buy_turret(self):
-        self.buy_turret_dialog = BuyTurretDialog(self.player, self)
 
     def upgrade_gold_per_kill(self, upgrade_type: str):
         self.player.upgrade_gold_per_kill()
@@ -154,14 +105,6 @@ class HUD:
         elif upgrade_type == "Range":
             self.player.upgrade_range(unit_type)
         self.upgrade_dialog = None  # Close the dialog after applying the upgrade
-
-    def apply_buy_turret(self, turret_type):
-        self.player.add_turret(turret_type)
-        self.buy_turret_dialog = None
-
-    def apply_sell_turret(self, turret_type):
-        self.player.sell_turret(turret_type)
-        self.sell_turret_dialog = None
 
 
 class UpgradeDialog:
@@ -191,8 +134,8 @@ class UpgradeDialog:
 
         for i, (unit_name, unit_class) in enumerate(buttons_data):
             x_position = screen_width // 2 - (
-                    button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
-                                 button_size + spacing)
+                        button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
+                                     button_size + spacing)
 
             y_position = screen_height // 2 - button_size // 2
             button = Button(
@@ -205,124 +148,7 @@ class UpgradeDialog:
 
     def draw(self, screen):
         # Draw dialog background
-        # calcul button length
-        button_length = len(self.buttons)
-        size = (button_length * 100, 100)
-        dialog_rect = pygame.Rect(0, 0, size[0], size[1])
-        dialog_rect.center = screen.get_rect().center
-        pygame.draw.rect(screen, (255, 255, 255),
-                         dialog_rect)
-        # Draw buttons
-        for button in self.buttons:
-            button.draw(screen)
-
-    def update(self):
-        for button in self.buttons:
-            button.update()
-
-    def handle_event(self, event):
-        for button in self.buttons:
-            button.handle_event(event)
-
-
-class BuyTurretDialog:
-    def __init__(self, player: Player, hud: HUD):
-        self.player = player
-        self.hud = hud
-        self.font = pygame.font.Font(None, 36)
-        self.buttons = []
-        self.initialize_buttons()
-
-    def initialize_buttons(self):
-        screen = pygame.display.get_surface()
-        screen_width, screen_height = screen.get_width(), screen.get_height()
-        button_size = screen_width // 20
-        size = (button_size, button_size)
-        spacing = 20
-
-        # Boutons pour sélectionner le type de tourelle à acheter
-        buttons_data = [
-            (Cannon),
-            (Minigun),
-            (Laser),
-        ]
-
-        for i, (turret_type) in enumerate(buttons_data):
-            x_position = screen_width // 2 - (
-                    button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
-                                 button_size + spacing)
-
-            y_position = screen_height // 2 - button_size // 2
-            button = Button(
-                pygame.image.load(f"assets/hud/Heavy.png"),
-                (x_position, y_position),
-                size,
-                action=lambda turret_type=turret_type: self.hud.apply_buy_turret(turret_type(team=self.player.team))
-            )
-            self.buttons.append(button)
-
-    def draw(self, screen):
-        # Draw dialog background
-        # calcul button length
-        button_length = len(self.buttons)
-        size = (button_length * 100, 100)
-        dialog_rect = pygame.Rect(0, 0, size[0], size[1])
-        dialog_rect.center = screen.get_rect().center
-        pygame.draw.rect(screen, (255, 255, 255),
-                         dialog_rect)
-        # Draw buttons
-        for button in self.buttons:
-            button.draw(screen)
-
-    def update(self):
-        for button in self.buttons:
-            button.update()
-
-    def handle_event(self, event):
-        for button in self.buttons:
-            button.handle_event(event)
-
-
-class SellTurretDialog:
-    def __init__(self, player: Player, hud: HUD):
-        self.player = player
-        self.hud = hud
-        self.font = pygame.font.Font(None, 36)
-        self.buttons = []
-        self.initialize_buttons()
-
-    def initialize_buttons(self):
-        screen = pygame.display.get_surface()
-        screen_width, screen_height = screen.get_width(), screen.get_height()
-        button_size = screen_width // 20
-        size = (button_size, button_size)
-        spacing = 20
-
-        # Boutons pour sélectionner le type d'unité à améliorer
-        buttons_data = [
-            ("Infantry", Infantry),
-            ("Support", Support),
-            ("Heavy", Heavy),
-            ("AntiTank", AntiTank)
-        ]
-
-        for i, (unit_name, unit_class) in enumerate(buttons_data):
-            x_position = screen_width // 2 - (
-                    button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
-                                 button_size + spacing)
-
-            y_position = screen_height // 2 - button_size // 2
-            button = Button(
-                pygame.image.load(f"assets/hud/{unit_name}.png"),
-                (x_position, y_position),
-                size,
-                action=lambda unit_class=unit_class: self.hud.apply_sell_turret(unit_name)
-            )
-            self.buttons.append(button)
-
-    def draw(self, screen):
-        # Draw dialog background
-        # calcul button length
+        #calcul button length
         button_length = len(self.buttons)
         size = (button_length * 100, 100)
         dialog_rect = pygame.Rect(0, 0, size[0], size[1])
@@ -377,7 +203,6 @@ class Button:
         return self.rect.collidepoint(mouse_pos)
 
     def click(self):
-        # Check if the button is not on cooldown and the player has enough money
         if self.action and self.cooldown == 0 and (not self.price or self.player.money >= self.price):
             self.cooldown = self.build_time
             self.last_click_time = pygame.time.get_ticks()
