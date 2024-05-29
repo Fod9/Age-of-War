@@ -64,7 +64,7 @@ class Game:
             self.age = new_age
             self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
             self.background_music.stop()
-            self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
+            self.background_music = pygame.mixer.Sound(f"assets/sounds/{self.age}.mp3")
             if age != 4:
                 self.background_music.set_volume(0.1)
             else :

@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +41,7 @@
     "Python.game.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Ages",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/sounds",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -117,6 +118,7 @@
       <workItem from="1716285626825" duration="7143000" />
       <workItem from="1716315391689" duration="12549000" />
       <workItem from="1716540675043" duration="912000" />
+      <workItem from="1717012968755" duration="30000" />
     </task>
     <servers />
   </component>
