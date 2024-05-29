@@ -11,6 +11,7 @@ class HUD:
         self.upgrade_buttons = []
         self.upgrade_dialog = None
         self.initialize_buttons()
+        self.xp_bar = XP_Bar(player)
 
     def initialize_buttons(self):
         screen = pygame.display.get_surface()
@@ -67,6 +68,19 @@ class HUD:
             )
             self.upgrade_buttons.append(button)
 
+        # upgrade Age button
+        x_position = 20
+        y_position = 100 + 4 * (upgrade_button_size + spacing)
+        button = Button(
+            pygame.image.load(f"assets/hud/Age.png"),
+            (x_position, y_position),
+            upgrade_size,
+            action=lambda: self.player.upgrade_age(),
+            player=self.player,
+            action_type="upgrade"
+        )
+        self.upgrade_buttons.append(button)
+
     def draw(self, screen):
         # Draw money
         money_text = self.font.render(f"Money: {self.player.money}", True, (0, 0, 0))
@@ -77,6 +91,9 @@ class HUD:
         # Draw upgrade dialog if it's active
         if self.upgrade_dialog:
             self.upgrade_dialog.draw(screen)
+
+        # Draw XP bar
+        self.xp_bar.draw(screen)
 
     def update(self):
         for button in self.buttons + self.upgrade_buttons:
@@ -165,6 +182,7 @@ class UpgradeDialog:
         for button in self.buttons:
             button.update()
 
+
     def handle_event(self, event):
         for button in self.buttons:
             button.handle_event(event)
@@ -226,3 +244,26 @@ class Button:
             if event.button == 1:
                 if self.is_hovered(event.pos):
                     self.click()
+
+
+class XP_Bar:
+
+    def __init__(self, player: Player):
+        self.player = player
+        self.font = pygame.font.Font(None, 36)
+        screen = pygame.display.get_surface()
+        self.position = (screen.get_width() // 2 - 100, 40)
+        self.size = (200, 20)
+        self.rect = pygame.Rect(self.position, self.size)
+        self.fill_rect = pygame.Rect(self.position, (0, self.size[1]))
+
+    def draw(self, screen: pygame.Surface):
+        max_xp = self.player.next_age_xp
+        current_xp = self.player.xp
+        xp_percentage = current_xp / max_xp
+        self.fill_rect.width = self.size[0] * xp_percentage
+        pygame.draw.rect(screen, (0, 255, 0), self.fill_rect)
+        pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
+        xp_text = self.font.render(f"{current_xp}/{max_xp}", True, (0, 0, 0))
+        screen.blit(xp_text, (self.position[0] + self.size[0] // 2 - xp_text.get_width() // 2,
+                              self.position[1] - xp_text.get_height() - 5))

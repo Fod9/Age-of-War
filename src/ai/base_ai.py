@@ -15,5 +15,10 @@ class AIBot:
     def can_afford(self, unit):
         return self.player.money >= unit.price
 
+    def update(self):
+        # check if player can upgrade Age
+        if self.player.xp >= self.player.next_age_xp:
+            self.player.upgrade_age()
+
     def get_spawn_position(self):
         return self.player.base.get_spawn_position()

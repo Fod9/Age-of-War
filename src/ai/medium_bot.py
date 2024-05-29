@@ -1,65 +1,161 @@
-from random import choice
-from random import random
+import random
 
 from src.ai.base_ai import AIBot
 from src.game.players import Player
-from src.game.units import Unit, Infantry, Support, Heavy, AntiTank
+from src.game.units import Infantry, Support, Heavy, AntiTank
 
 
-class Medium_bot(AIBot):
-    # This bot will have a decision tree to decide what to do
-    def __init__(self, player: "Player"):
+class MediumBot(AIBot):
+    def __init__(self, player: Player):
         super().__init__(player)
-
-    def perform_actions(self, all_units: list["Unit"], other_player: "Player"):
-
-        all_units_type = {
-            "Infantry": {"unit": Infantry, "count": 0},
-            "Support": {"unit": Support, "count": 0},
-            "Heavy": {"unit": Heavy, "count": 0},
-            "AntiTank": {"unit": AntiTank, "count": 0}
+        self.unit_memory = {
+            "Infantry": 0,
+            "Support": 0,
+            "Heavy": 0,
+            "AntiTank": 0
         }
 
-        # 10% chance to upgrade a unit
-        if random() < 0.05:
-            self.upgrade_unit()
-            return
-        elif random() < 0.5:
-            for unit in other_player.units:
-                all_units_type[unit.__class__.__name__]["count"] += 1
+    def perform_actions(self, all_units: list["Unit"], other_player: "Player"):
+        evaluation = self.evaluate_unit(all_units, other_player)
+        print(evaluation)
 
-            most_common_unit = max(all_units_type, key=lambda x: all_units_type[x]["count"])
-
-            weak_against = all_units_type[most_common_unit]["unit"].weak_against
-
-            # If the player has more of the most common unit, spawn a unit that is strong against it
-            if all_units_type[most_common_unit]["count"] > len(other_player.units) / 2:
-                for unit in all_units_type:
-                    if unit in weak_against:
-                        self.spawn_unit(all_units_type[unit]["unit"])
-                        break
-            else:
-                self.spawn_unit(all_units_type[most_common_unit]["unit"])
-
-    def upgrade_unit(self):
-
-        # Choose a random unit
-        available_units = ["Infantry", "Support", "Heavy", "AntiTank"]
-        chosen_unit = choice(available_units)
-
-        available_upgrade = [self.player.upgrade_damage, self.player.upgrade_hp,
-                             self.player.upgrade_range]
-        upgrade = choice(available_upgrade)
-        upgrade(chosen_unit)
-
-    def spawn_unit(self, unit_type=None):
-        if unit_type is None:
-            # Choose a random unit
-            available_units = [Infantry, Support, Heavy, AntiTank]
-            chosen_unit = choice(available_units)
+        if evaluation > 0:
+            self.play_aggressively()
+        elif evaluation == 0:
+            self.play_balanced()
         else:
-            chosen_unit = unit_type
+            self.play_defensively()
 
-        unit_instance = chosen_unit(age=self.player.age, team=self.player.team)
-        if self.can_afford(unit_instance):
+    def evaluate_unit(self, all_unit: list["Unit"], other_player: "Player"):
+        enemie_units_on_board = other_player.units
+        self_units_on_board = self.player.units
+
+        enemie_base_position = other_player.base.position
+        self_base_position = self.player.base.position
+
+        if len(enemie_units_on_board) != 0:
+            enemie_distance = abs(enemie_units_on_board[0].position[0] - enemie_base_position[0])
+        else:
+            enemie_distance = abs(enemie_base_position[0] - self_base_position[0])
+
+        if len(self_units_on_board) != 0:
+            self_distance = abs(self_units_on_board[0].position[0] - self_base_position[0])
+        else:
+            self_distance = abs(self_base_position[0] - enemie_base_position[0])
+
+        # Who is closer to the base?
+        if enemie_distance < self_distance:
+            # enemie is closer
+            pos_score = 1
+        elif enemie_distance == self_distance:
+            # both are at the same distance
+            pos_score = 0
+        else:
+            # self is closer
+            pos_score = -1
+
+        # Who has more units?
+        if len(enemie_units_on_board) > len(self_units_on_board):
+            # enemie has more units
+            unit_score = 1
+        elif len(enemie_units_on_board) == len(self_units_on_board):
+            # both have the same amount of units
+            unit_score = 0
+        else:
+            # self has more units
+            unit_score = -1
+
+        # Who has more money?
+        if other_player.money > self.player.money:
+            # enemie has more money
+            money_score = 1
+        elif other_player.money == self.player.money:
+            # both have the same amount of money
+            money_score = 0
+        else:
+            # self has more money
+            money_score = -1
+
+        # Who counters the largest amount of units?
+        self_unit_counter = 0
+        enemie_unit_counter = 0
+        for unit in self_units_on_board:
+            for enemie_unit in enemie_units_on_board:
+                if unit.weak_against == enemie_unit.nom:
+                    self_unit_counter += 1
+
+        for enemie_unit in enemie_units_on_board:
+            for unit in self_units_on_board:
+                if enemie_unit.weak_against == unit.nom:
+                    enemie_unit_counter += 1
+
+        if self_unit_counter > enemie_unit_counter:
+            counter_score = 1
+        elif self_unit_counter == enemie_unit_counter:
+            counter_score = 0
+        else:
+            counter_score = -1
+
+        return pos_score + unit_score + money_score + counter_score
+
+    def play_aggressively(self):
+        self.spawn_unit()  # Prioritize spawning more units
+
+    def play_balanced(self):
+        if random.random() < 0.5:
+            self.spawn_unit()
+        else:
+            self.attempt_upgrade()
+
+    def play_defensively(self):
+        self.spawn_defensive_units()
+        self.attempt_upgrade()  # Prioritize upgrading
+
+    def spawn_unit(self):
+        available_units = [Infantry, Support, Heavy, AntiTank]
+        chosen_unit = random.choice(available_units)
+        if self.can_afford(chosen_unit):
             self.player.add_unit(chosen_unit(age=self.player.age, team=self.player.team))
+            self.unit_memory[chosen_unit.__name__] += 1
+            print(f"Spawned unit: {chosen_unit.__name__}")
+
+    def spawn_defensive_units(self):
+        # Prioritize spawning more defensive or support units
+        defensive_units = [Heavy, Support]
+        chosen_unit = random.choice(defensive_units)
+        if self.can_afford(chosen_unit):
+            self.player.add_unit(chosen_unit(age=self.player.age, team=self.player.team))
+            self.unit_memory[chosen_unit.__name__] += 1
+            print(f"Spawned defensive unit: {chosen_unit.__name__}")
+
+    def attempt_upgrade(self):
+        available_upgrades = ["damage", "hp", "range", "gold"]
+        chosen_upgrade = random.choice(available_upgrades)
+        if chosen_upgrade == "gold":
+            if self.can_afford_upgrade("gold", "gold"):
+                self.player.upgrade_gold_per_kill()
+                print(f"Upgraded Gold per Kill")
+        else:
+            most_used_unit = max(self.unit_memory, key=self.unit_memory.get)
+            print(f"Chosen upgrade: {chosen_upgrade}")
+            print(f"Most used unit: {most_used_unit}")
+            if self.can_afford_upgrade(chosen_upgrade,most_used_unit):
+                if chosen_upgrade == "damage":
+                    self.player.upgrade_damage(most_used_unit)
+                elif chosen_upgrade == "hp":
+                    self.player.upgrade_hp(most_used_unit)
+                elif chosen_upgrade == "range":
+                    self.player.upgrade_range(most_used_unit)
+                print(f"Upgraded {chosen_upgrade} for {most_used_unit}")
+
+    def can_afford(self, unit):
+        if self.player.money >= unit.price:
+            return True
+        return False
+
+    def can_afford_upgrade(self, unit, upgrade):
+        if self.player.money >= self.player.get_upgrade_cost(unit, upgrade):
+            return True
+        return False
+
+

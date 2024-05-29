@@ -1,0 +1,32 @@
+{
+  "Quiz_id": "1",
+  "Quiz_name": "Quiz 1",
+  "Questions": [
+    {
+      "Question_id": "1",
+      "Question_text": "What is the capital of France?",
+      "Propositions" : [
+        {
+          "Proposition_id": "1",
+          "Proposition_text": "Paris",
+          "Is_correct": "true"
+        },
+        {
+          "Proposition_id": "2",
+          "Proposition_text": "London",
+          "Is_correct": "false"
+        },
+        {
+          "Proposition_id": "3",
+          "Proposition_text": "Berlin",
+          "Is_correct": "false"
+        },
+        {
+          "Proposition_id": "4",
+          "Proposition_text": "Madrid",
+          "Is_correct": "false"
+        }
+      ]
+    }
+  ]
+}

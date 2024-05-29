@@ -5,8 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/hud/Age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/sounds/2.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/sounds/3.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/sounds/4.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ai/hard_bot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/base_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/base_ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/medium_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/medium_bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/players.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/players.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/units.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/units.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,14 +53,14 @@
     "Python.game.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "backup-branch",
+    "git-widget-placeholder": "Ages",
     "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/sounds",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "editor.preferences.tabs",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>

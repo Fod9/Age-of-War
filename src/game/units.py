@@ -28,13 +28,16 @@ class Unit:
                  weak_against: list = [], age: int = 1, team: str = "B"):
         self.id = id(self)
         self.nom = nom
-        self.HP = HP
+        multiplier = 1 + 0.2 * (age - 1)
+        # Age affects the unit's stats
+        self.HP = HP * multiplier
         self.price = price
-        self.damage = damage
-        self.attack_speed = attack_speed
+        self.damage = damage * multiplier
+        self.attack_speed = attack_speed * multiplier
         self.range = range
         self.gold_value = gold_value
-        self.walk_speed = walk_speed
+        self.walk_speed = walk_speed * multiplier
+        self.max_health = HP * multiplier
         self.build_time = build_time
         self.base_image = image
         self.image = pygame.transform.scale(image, (int(image.get_width() * .5), int(image.get_height() * .5)))
@@ -57,7 +60,6 @@ class Unit:
         self.last_attack_time = 0
         self.age = age
         self.team = team
-        self.max_health = HP
         self.sound = pygame.mixer.Sound("assets/sounds/punch.mp3")
         self.sound.set_volume(0.05)
 
@@ -142,6 +144,7 @@ class Unit:
         if self in player.units:
             player.units.remove(self)
             other_player.money += self.gold_value
+            other_player.xp += 10
 
     def update(self, units: list, player, other_player):
         if self.HP <= 0:
@@ -214,10 +217,10 @@ class Support(Unit):
         image = pygame.image.load(f"assets/units/{age}/{team}_Support.png")
         super().__init__(
             "Support",
-            50,
+            100,
             10,
             5,
-            1,
+            0.5,
             300,
             2.5,
             2,
@@ -239,9 +242,9 @@ class Heavy(Unit):
         super().__init__(
             "Heavy",
             400,
-            25,
-            2,
-            1,
+            18,
+            5,
+            0.7,
             150,
             10,
             1,
@@ -262,9 +265,9 @@ class AntiTank(Unit):
         image = pygame.image.load(f"assets/units/{age}/{team}_AntiTank.png")
         super().__init__(
             "AntiTank",
-            150,
+            200,
+            18,
             15,
-            10,
             0.7,
             150,
             7.5,

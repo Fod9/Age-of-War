@@ -105,26 +105,55 @@ class Player:
         self.units.remove(unit)
 
     def upgrade_damage(self, unit_type: str):
-        print(f"Upgrading damage for {unit_type}")
         if self.money >= self.damage_upgrade_cost[unit_type]:
+            print(f"Upgrading damage for {unit_type}")
             self.damage_multiplier[unit_type] += 0.2
+            print(self.money)
+            print(self.damage_upgrade_cost[unit_type])
             self.money -= self.damage_upgrade_cost[unit_type]
             self.damage_upgrade_cost[unit_type] *= 1.5
 
     def upgrade_hp(self, unit_type: str):
         if self.money >= self.hp_upgrade_cost[unit_type]:
+            print(f"Upgrading HP for {unit_type}")
             self.hp_multiplier[unit_type] += 0.2
+            print(self.hp_upgrade_cost[unit_type])
             self.money -= self.hp_upgrade_cost[unit_type]
             self.hp_upgrade_cost[unit_type] *= 1.5
 
     def upgrade_range(self, unit_type: str):
         if self.money >= self.range_upgrade_cost[unit_type]:
+            print(f"Upgrading Range for {unit_type}")
             self.range_multiplier[unit_type] += 0.2
+            print(self.range_upgrade_cost[unit_type])
             self.money -= self.range_upgrade_cost[unit_type]
             self.range_upgrade_cost[unit_type] *= 1.5
 
     def upgrade_gold_per_kill(self):
+        print(f"Upgrading GOLD")
         if self.money >= self.gold_upgrade_cost:
             self.gold_multiplier += 0.2
             self.money -= self.gold_upgrade_cost
             self.gold_upgrade_cost *= 2
+
+    def upgrade_age(self):
+        if self.xp >= self.next_age_xp:
+            self.age += 1
+            self.next_age_xp *= 2
+            self.base.upgrade_age()
+            self.xp = 0
+            #send to the game that the age has changed
+            pygame.event.post(pygame.event.Event(pygame.USEREVENT, {"age": self.age}))
+
+    def get_upgrade_cost(self, upgrade_type, unit_type=None) -> int:
+        if upgrade_type == "gold":
+            return self.gold_upgrade_cost
+        if upgrade_type == "damage":
+            return self.damage_upgrade_cost[unit_type]
+        elif upgrade_type == "hp":
+            return self.hp_upgrade_cost[unit_type]
+        elif upgrade_type == "range":
+            return self.range_upgrade_cost[unit_type]
+        else:
+            raise ValueError(f"Unknown upgrade type: {upgrade_type}")
+

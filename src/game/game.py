@@ -6,7 +6,8 @@ from src.game.units import Infantry, Support, Heavy, AntiTank
 from src.game.players import Player
 from src.game.hud import HUD
 from src.ai.easy_bot import EasyBot
-from src.ai.medium_bot import Medium_bot
+from src.ai.medium_bot import MediumBot
+from src.ai.hard_bot import HardBot
 from src.ai.base_ai import AIBot
 
 
@@ -22,7 +23,7 @@ class Game:
     config_done: bool
 
     def __init__(self, screen):
-        self.age = 1
+        self.age = 4
         self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
         self.screen = screen
         self.running = True
@@ -34,6 +35,7 @@ class Game:
         self.hud = HUD(self.blue_player)
         self.config_done = False
         self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
+        self.background_music.play()
 
     def handle_event(self, event):
         #self.background_music.play()
@@ -57,6 +59,18 @@ class Game:
             if event.button == 1:
                 self.hud.handle_event(event)
 
+        if event.type == pygame.USEREVENT:
+            new_age = max(self.red_player.age, self.blue_player.age)
+            self.age = new_age
+            self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
+            self.background_music.stop()
+            self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
+            if age != 4:
+                self.background_music.set_volume(0.1)
+            else :
+                self.background_music.set_volume(0.5)
+            self.background_music.play()
+
     def update(self):
         if not self.config_done and self.game_mode:
             self.handle_game_config()
@@ -67,14 +81,7 @@ class Game:
         self.red_player.update(all_units, self.blue_player)
         self.blue_player.update(all_units, self.red_player)
         self.hud.update()
-        if self.age_has_changed():
-            # When the age changes, we need to update the background, the base and the music of the game
-            self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
-            self.red_player.base.age = self.red_player.age
-            self.blue_player.base.age = self.blue_player.age
-            self.background_music.stop()
-            self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
-            self.background_music.play()
+        self.bot.update()
 
     def age_has_changed(self):
         return self.age != self.red_player.age or self.age != self.blue_player.age
@@ -83,11 +90,9 @@ class Game:
         if self.game_mode == "easy":
             self.bot = EasyBot(self.red_player)
         elif self.game_mode == "intermediate":
-            self.bot = Medium_bot(self.red_player)
+            self.bot = MediumBot(self.red_player)
         elif self.game_mode == "hard":
-            pass
-        elif self.game_mode == "multiplayer":
-            pass
+            self.bot = HardBot(self.red_player, self.blue_player)
 
     def draw(self, screen):
         self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
@@ -96,6 +101,7 @@ class Game:
         # Dessiner les bases ensuite
         self.red_player.base.draw(screen)
         self.blue_player.base.draw(screen)
+
 
         # Dessiner les unités en premier
         for unit in self.red_player.units + self.blue_player.units:

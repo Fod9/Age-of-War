@@ -76,8 +76,8 @@ class Base:
 
     def update(self):
         current_time = pygame.time.get_ticks()
-        # Repair the base every 2 seconds if it has not been damaged in the last 10 seconds
-        if current_time - self.last_repair > 2000 and current_time - self.last_damage > 10000:
+        # Repair the base every 5 seconds if it has not been damaged in the last 20 seconds
+        if current_time - self.last_repair > 5000 and current_time - self.last_damage > 20000:
             self.HP += 2
             if self.HP > self.max_health:
                 self.HP = self.max_health
@@ -166,3 +166,9 @@ class Base:
                     s["slot"].remove_turret(turret)
                     self.turrets.remove(turret)
                 break
+
+    def upgrade_age(self):
+        self.age += 1
+        self.base_image = pygame.image.load(f'assets/base/{self.age}/{self.owner}_Base.png').convert_alpha()
+        self.max_health *= 1.5
+        self.HP = self.max_health
