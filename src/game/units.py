@@ -47,7 +47,7 @@ class Unit:
         # Calculer la position pour que les pieds soient alignés à 20% au-dessus du bas de l'écran
         screen_height = self.screen.get_height()
         screen_width = self.screen.get_width()
-        y_position = screen_height - 300
+        y_position = self.define_y_position(age)
 
         if team == "B":
             x_position = int(screen_width * 0.05)  # Unités bleues à gauche
@@ -144,7 +144,8 @@ class Unit:
         if self in player.units:
             player.units.remove(self)
             other_player.money += self.gold_value
-            other_player.xp += 10
+            if other_player.xp < other_player.next_age_xp:
+                other_player.xp += 10
 
     def update(self, units: list, player, other_player):
         if self.HP <= 0:
@@ -182,6 +183,16 @@ class Unit:
     def can_attack_base(self, base: "Base"):
         distance = abs(self.position[0] - base.position[0])
         return distance <= self.range
+
+    def define_y_position(self, age: int):
+        if age == 1:
+            return int(self.screen.get_height() - 300)
+        elif age == 2:
+            return int(self.screen.get_height() * 0.75)
+        elif age == 3:
+            return int(self.screen.get_height() - 300)
+        elif age == 4:
+            return int(self.screen.get_height() * 0.80)
 
 
 class Infantry(Unit):
@@ -234,15 +245,15 @@ class Support(Unit):
 
 class Heavy(Unit):
     build_time = 3
-    price = 25
+    price = 18
     weak_against = ["AntiTank"]
 
     def __init__(self, age: int = 1, team: str = "B"):
         image = pygame.image.load(f"assets/units/{age}/{team}_Heavy.png")
         super().__init__(
             "Heavy",
-            400,
-            18,
+            300,
+            self.price,
             5,
             0.7,
             150,
@@ -258,7 +269,7 @@ class Heavy(Unit):
 
 class AntiTank(Unit):
     build_time = 3
-    price = 15
+    price = 18
     weak_against = ["Heavy"]
 
     def __init__(self, age: int = 1, team: str = "B"):
@@ -267,7 +278,7 @@ class AntiTank(Unit):
             "AntiTank",
             200,
             18,
-            15,
+            self.price,
             0.7,
             150,
             7.5,

@@ -147,7 +147,6 @@ class UpgradeDialog:
             ("Support", Support),
             ("Heavy", Heavy),
             ("AntiTank", AntiTank),
-            ("Gold", "")
         ]
 
         for i, (unit_name, unit_class) in enumerate(buttons_data):

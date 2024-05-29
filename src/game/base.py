@@ -52,7 +52,7 @@ class Base:
             self.v_percent = 0.55
 
     def take_damage(self, damage):
-        self.HP -= damage
+        self.HP -= round(damage)
         self.last_damage = pygame.time.get_ticks()
         if self.HP <= 0:
             self.destroy()

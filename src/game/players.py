@@ -86,6 +86,13 @@ class Player:
         self.base.update()
 
     def add_unit(self, unit: Unit):
+
+        # Check if another unit is placed at the same position
+        for u in self.units:
+            if u.position[0] == unit.position[0] or u.position[0] - 50 <= unit.position[0] <= u.position[0] + 50:
+                return
+
+
         if self.money >= unit.price:
             # Apply multipliers
             unit.damage *= self.damage_multiplier[unit.nom]
@@ -137,7 +144,7 @@ class Player:
             self.gold_upgrade_cost *= 2
 
     def upgrade_age(self):
-        if self.xp >= self.next_age_xp:
+        if self.xp >= self.next_age_xp and self.age < 4:
             self.age += 1
             self.next_age_xp *= 2
             self.base.upgrade_age()
