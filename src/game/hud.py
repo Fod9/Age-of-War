@@ -73,9 +73,9 @@ class HUD:
 
         # Initialisation des boutons de slot
         slot_buttons_data = [
-            (self.add_slot),
-            (self.sell_turret),
-            (self.buy_turret)
+            self.add_slot,
+            self.sell_turret,
+            self.buy_turret
         ]
 
         for i, (action) in enumerate(slot_buttons_data):
@@ -377,6 +377,7 @@ class Button:
         return self.rect.collidepoint(mouse_pos)
 
     def click(self):
+        # Check if the button is not on cooldown and the player has enough money
         if self.action and self.cooldown == 0 and (not self.price or self.player.money >= self.price):
             self.cooldown = self.build_time
             self.last_click_time = pygame.time.get_ticks()
