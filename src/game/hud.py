@@ -3,7 +3,6 @@ import pygame
 from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
 
-
 class HUD:
     def __init__(self, player: Player):
         self.player = player
@@ -42,7 +41,8 @@ class HUD:
                 ),
                 build_time=build_time,
                 player=self.player,
-                price=price
+                price=price,
+                action_type="unit"
             )
             self.buttons.append(button)
 
@@ -61,8 +61,9 @@ class HUD:
                 pygame.image.load(f"assets/hud/{upgrade_type}.png"),
                 (x_position, y_position),
                 upgrade_size,
-                action=lambda upgrade_type=upgrade_type: action(upgrade_type),
-                player=self.player
+                action=lambda upgrade_type=upgrade_type, action=action: action(upgrade_type),
+                player=self.player,
+                action_type="upgrade"
             )
             self.upgrade_buttons.append(button)
 
@@ -104,7 +105,7 @@ class HUD:
             self.player.upgrade_damage(unit_type)
         elif upgrade_type == "Range":
             self.player.upgrade_range(unit_type)
-        self.upgrade_dialog = None  # Close the dialog after applying the upgrade
+        self.upgrade_dialog = None
 
 
 class UpgradeDialog:
@@ -134,15 +135,16 @@ class UpgradeDialog:
 
         for i, (unit_name, unit_class) in enumerate(buttons_data):
             x_position = screen_width // 2 - (
-                        button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
-                                     button_size + spacing)
+                    button_size * len(buttons_data) + spacing * (len(buttons_data) - 1)) // 2 + i * (
+                                 button_size + spacing)
 
             y_position = screen_height // 2 - button_size // 2
             button = Button(
                 pygame.image.load(f"assets/hud/{unit_name}.png"),
                 (x_position, y_position),
                 size,
-                action=lambda unit_class=unit_name: self.hud.apply_upgrade(self.upgrade_type, unit_class)
+                action=lambda unit_class=unit_name: self.hud.apply_upgrade(self.upgrade_type, unit_class),
+                action_type="upgrade"
             )
             self.buttons.append(button)
 
@@ -172,7 +174,7 @@ class Button:
     player: Union[Player, None]
 
     def __init__(self, image: pygame.Surface, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None,
-                 build_time: int = 0, player=None, price=0):
+                 build_time: int = 0, player=None, price=0, action_type=None):
         self.image = pygame.transform.scale(image, size)
         self.position = position
         self.size = size
@@ -183,6 +185,7 @@ class Button:
         self.last_click_time = 0
         self.price = price
         self.player = player
+        self.action_type = action_type
 
     def draw(self, screen: pygame.Surface):
         screen.blit(self.image, self.position)
@@ -194,7 +197,6 @@ class Button:
             screen.blit(cooldown_text, (self.position[0] + self.size[0] // 2 - cooldown_text.get_width() // 2,
                                         self.position[1] + self.size[1] // 2 - cooldown_text.get_height() // 2))
         elif self.price and self.player.money < self.price:
-
             overlay = pygame.Surface(self.size, pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 150))
             screen.blit(overlay, self.position)
@@ -203,10 +205,14 @@ class Button:
         return self.rect.collidepoint(mouse_pos)
 
     def click(self):
-        if self.action and self.cooldown == 0 and (not self.price or self.player.money >= self.price):
-            self.cooldown = self.build_time
-            self.last_click_time = pygame.time.get_ticks()
+        if self.action_type == "upgrade":
+            print("Upgrade button clicked")
             self.action()
+        else:
+            if self.action and self.cooldown == 0 and (not self.price or self.player.money >= self.price):
+                self.cooldown = self.build_time
+                self.last_click_time = pygame.time.get_ticks()
+                self.action()
 
     def update(self):
         # Update cooldown
@@ -214,38 +220,6 @@ class Button:
             current_time = pygame.time.get_ticks()
             if current_time - self.last_click_time > self.cooldown * 1000:
                 self.cooldown = 0
-
-    def handle_event(self, event: pygame.event.Event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if self.is_hovered(event.pos):
-                    self.click()
-
-
-class TextButton:
-    def __init__(self, text: str, position: Tuple[int, int], size: Tuple[int, int], action: Callable = None):
-        self.text = text
-        self.position = position
-        self.size = size
-        self.action = action
-        self.rect = pygame.Rect(position, size)
-        self.font = pygame.font.Font(None, 36)
-
-    def draw(self, screen: pygame.Surface):
-        pygame.draw.rect(screen, (0, 128, 0), self.rect)
-        text_surface = self.font.render(self.text, True, (255, 255, 255))
-        screen.blit(text_surface, (self.position[0] + (self.size[0] - text_surface.get_width()) // 2,
-                                   self.position[1] + (self.size[1] - text_surface.get_height()) // 2))
-
-    def is_hovered(self, mouse_pos: Tuple[int, int]) -> bool:
-        return self.rect.collidepoint(mouse_pos)
-
-    def click(self):
-        if self.action:
-            self.action()
-
-    def update(self):
-        pass
 
     def handle_event(self, event: pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN:
