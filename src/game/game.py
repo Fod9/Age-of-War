@@ -34,7 +34,7 @@ class Game:
         self.bot = None
         self.hud = HUD(self.blue_player)
         self.config_done = False
-        self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
+        self.background_music = pygame.mixer.Sound(f"assets/sounds/{self.age}.mp3")
         self.background_music.play()
 
     def handle_event(self, event):
@@ -65,7 +65,7 @@ class Game:
             self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
             self.background_music.stop()
             self.background_music = pygame.mixer.Sound(f"assets/sounds/{self.age}.mp3")
-            if age != 4:
+            if self.age != 4:
                 self.background_music.set_volume(0.1)
             else :
                 self.background_music.set_volume(0.5)
