@@ -100,11 +100,11 @@ class Laser(Turret):
         )
 
 
-class Missile(Turret):
+class Minigun(Turret):
     price = 3
 
     def __init__(self, age: int = 1, team: str = "B"):
-        image = pygame.image.load(f"assets/turrets/{age}/{team}_Missile.png")
+        image = pygame.image.load(f"assets/turrets/{age}/{team}_Minigun.png")
         super().__init__(
             "Missile",
             3,

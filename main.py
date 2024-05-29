@@ -8,6 +8,7 @@ from watcher import start_watcher  # Importer le watcher
 
 # Initialize Pygame
 pygame.init()
+pygame.mixer.init()
 
 # Window settings
 SCREEN_WIDTH = 1200

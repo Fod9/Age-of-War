@@ -58,6 +58,8 @@ class Unit:
         self.age = age
         self.team = team
         self.max_health = HP
+        self.sound = pygame.mixer.Sound("assets/sounds/punch.mp3")
+        self.sound.set_volume(0.05)
 
     def __str__(self):
         return f"{self.nom} (HP: {self.HP}, Price: {self.price}, Damage: {self.damage}, Attack Speed: {self.attack_speed}, Range: {self.range}, Gold Value: {self.gold_value}, Walk Speed: {self.walk_speed}, Build Time: {self.build_time})"
@@ -121,10 +123,12 @@ class Unit:
 
     def attack(self, target: "Unit"):
         target.take_damage(self.damage, self)
+        self.sound.play()
         self.last_attack_time = pygame.time.get_ticks()  # Update last attack time
 
     def attack_base(self, base: "Base"):
         base.take_damage(self.damage)
+        self.sound.play()
         self.last_attack_time = pygame.time.get_ticks()
 
     def take_damage(self, damage: float, attacker: Union["Unit", None]):

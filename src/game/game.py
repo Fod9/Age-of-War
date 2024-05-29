@@ -21,7 +21,7 @@ class Game:
     config_done: bool
 
     def __init__(self, screen):
-        self.age = 3
+        self.age = 1
         self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
         self.screen = screen
         self.running = True
@@ -32,8 +32,10 @@ class Game:
         self.bot = None
         self.hud = HUD(self.blue_player)
         self.config_done = False
+        self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
 
     def handle_event(self, event):
+        #self.background_music.play()
         if event.type == pygame.VIDEORESIZE:
             reload_image = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
             self.background = pygame.transform.scale(reload_image,
@@ -64,6 +66,17 @@ class Game:
         self.red_player.update(all_units, self.blue_player)
         self.blue_player.update(all_units, self.red_player)
         self.hud.update()
+        if self.age_has_changed():
+            # When the age changes, we need to update the background, the base and the music of the game
+            self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
+            self.red_player.base.age = self.red_player.age
+            self.blue_player.base.age = self.blue_player.age
+            self.background_music.stop()
+            self.background_music = pygame.mixer.Sound(f"../../assets/sounds/{self.age}.mp3")
+            self.background_music.play()
+
+    def age_has_changed(self):
+        return self.age != self.red_player.age or self.age != self.blue_player.age
 
     def handle_game_config(self):
         if self.game_mode == "easy":

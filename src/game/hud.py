@@ -2,7 +2,7 @@ from typing import Tuple, Callable, Union
 import pygame
 from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
-from src.game.turrets import Cannon, Missile, Laser
+from src.game.turrets import Cannon, Minigun, Laser
 
 
 class HUD:
@@ -74,7 +74,7 @@ class HUD:
         # Initialisation des boutons de slot
         slot_buttons_data = [
             (self.add_slot),
-            #(self.sell_turret),
+            (self.sell_turret),
             (self.buy_turret)
         ]
 
@@ -101,8 +101,8 @@ class HUD:
         if self.upgrade_dialog:
             self.upgrade_dialog.draw(screen)
 
-        #if self.sell_turret_dialog:
-            #self.sell_turret_dialog.draw(screen)
+        # if self.sell_turret_dialog:
+        # self.sell_turret_dialog.draw(screen)
 
         if self.buy_turret_dialog:
             self.buy_turret_dialog.draw(screen)
@@ -113,8 +113,8 @@ class HUD:
         if self.upgrade_dialog:
             self.upgrade_dialog.update()
 
-        #if self.sell_turret_dialog:
-            #self.sell_turret_dialog.update()
+        # if self.sell_turret_dialog:
+        # self.sell_turret_dialog.update()
 
         if self.buy_turret_dialog:
             self.buy_turret_dialog.update()
@@ -164,7 +164,6 @@ class HUD:
         self.sell_turret_dialog = None
 
 
-
 class UpgradeDialog:
     def __init__(self, player: Player, upgrade_type: str, hud: HUD):
         self.player = player
@@ -206,7 +205,7 @@ class UpgradeDialog:
 
     def draw(self, screen):
         # Draw dialog background
-        #calcul button length
+        # calcul button length
         button_length = len(self.buttons)
         size = (button_length * 100, 100)
         dialog_rect = pygame.Rect(0, 0, size[0], size[1])
@@ -244,7 +243,7 @@ class BuyTurretDialog:
         # Boutons pour sélectionner le type de tourelle à acheter
         buttons_data = [
             (Cannon),
-            (Missile),
+            (Minigun),
             (Laser),
         ]
 
@@ -264,7 +263,7 @@ class BuyTurretDialog:
 
     def draw(self, screen):
         # Draw dialog background
-        #calcul button length
+        # calcul button length
         button_length = len(self.buttons)
         size = (button_length * 100, 100)
         dialog_rect = pygame.Rect(0, 0, size[0], size[1])
@@ -323,7 +322,7 @@ class SellTurretDialog:
 
     def draw(self, screen):
         # Draw dialog background
-        #calcul button length
+        # calcul button length
         button_length = len(self.buttons)
         size = (button_length * 100, 100)
         dialog_rect = pygame.Rect(0, 0, size[0], size[1])
