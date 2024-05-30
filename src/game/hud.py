@@ -3,6 +3,7 @@ import pygame
 from src.game.players import Player
 from src.game.units import Infantry, Support, Heavy, AntiTank
 
+
 class HUD:
     def __init__(self, player: Player):
         self.player = player
@@ -133,6 +134,10 @@ class UpgradeDialog:
         self.font = pygame.font.Font(None, 36)
         self.buttons = []
         self.initialize_buttons()
+        self.dialog_rect = None
+
+    def close_dialog(self):
+        self.hud.upgrade_dialog = None
 
     def initialize_buttons(self):
         screen = pygame.display.get_surface()
@@ -162,25 +167,39 @@ class UpgradeDialog:
                 action=lambda unit_class=unit_name: self.hud.apply_upgrade(self.upgrade_type, unit_class),
                 action_type="upgrade"
             )
+
+            dialog_size = (len(buttons_data) * 100, 100)
+
+            dialog_rect = pygame.Rect(0, 0, dialog_size[0], dialog_size[1])
+            dialog_rect.center = screen.get_rect().center
+
+            self.dialog_rect = dialog_rect
+
             self.buttons.append(button)
+            # Create close button in the corner of the dialog
+            close_button = Button(
+                pygame.image.load("assets/hud/Close.png"),
+                (dialog_rect.right - 40, dialog_rect.top),
+                (40, 30),
+                action=lambda: self.close_dialog(),
+                action_type="upgrade"
+            )
+            self.buttons.append(close_button)
 
     def draw(self, screen):
+
         # Draw dialog background
-        #calcul button length
-        button_length = len(self.buttons)
-        size = (button_length * 100, 100)
-        dialog_rect = pygame.Rect(0, 0, size[0], size[1])
-        dialog_rect.center = screen.get_rect().center
-        pygame.draw.rect(screen, (255, 255, 255),
-                         dialog_rect)
+        if self.dialog_rect:
+            pygame.draw.rect(screen, (255, 255, 255),
+                             self.dialog_rect)
         # Draw buttons
         for button in self.buttons:
             button.draw(screen)
 
+
     def update(self):
         for button in self.buttons:
             button.update()
-
 
     def handle_event(self, event):
         for button in self.buttons:
@@ -223,7 +242,6 @@ class Button:
 
     def click(self):
         if self.action_type == "upgrade":
-            print("Upgrade button clicked")
             self.action()
         else:
             if self.action and self.cooldown == 0 and (not self.price or self.player.money >= self.price):

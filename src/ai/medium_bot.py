@@ -117,7 +117,6 @@ class MediumBot(AIBot):
         if self.can_afford(chosen_unit):
             self.player.add_unit(chosen_unit(age=self.player.age, team=self.player.team))
             self.unit_memory[chosen_unit.__name__] += 1
-            print(f"Spawned unit: {chosen_unit.__name__}")
 
     def spawn_defensive_units(self):
         # Prioritize spawning more defensive or support units
@@ -126,7 +125,6 @@ class MediumBot(AIBot):
         if self.can_afford(chosen_unit):
             self.player.add_unit(chosen_unit(age=self.player.age, team=self.player.team))
             self.unit_memory[chosen_unit.__name__] += 1
-            print(f"Spawned defensive unit: {chosen_unit.__name__}")
 
     def attempt_upgrade(self):
         available_upgrades = ["damage", "hp", "range", "gold"]
@@ -134,11 +132,8 @@ class MediumBot(AIBot):
         if chosen_upgrade == "gold":
             if self.can_afford_upgrade("gold", "gold"):
                 self.player.upgrade_gold_per_kill()
-                print(f"Upgraded Gold per Kill")
         else:
             most_used_unit = max(self.unit_memory, key=self.unit_memory.get)
-            print(f"Chosen upgrade: {chosen_upgrade}")
-            print(f"Most used unit: {most_used_unit}")
             if self.can_afford_upgrade(chosen_upgrade,most_used_unit):
                 if chosen_upgrade == "damage":
                     self.player.upgrade_damage(most_used_unit)

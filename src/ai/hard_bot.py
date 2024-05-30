@@ -90,7 +90,6 @@ class HardBot(AIBot):
         return pos_score + unit_score + money_score + counter_score + base_health_score + diversity_score
 
     def play_aggressively(self):
-        print("JE JOUE AGRESSIF FDP")
         if self.player.money > self.savings_threshold:
             self.spawn_combo_units()
         else:
@@ -98,7 +97,6 @@ class HardBot(AIBot):
             self.attempt_upgrade()
 
     def play_defensively(self):
-        print("JE JOUE DEFENSIF FDP")
         self.spawn_defensive_units()
 
     def spawn_units(self):
@@ -108,7 +106,6 @@ class HardBot(AIBot):
         if self.can_afford(chosen_unit):
             self.player.add_unit(chosen_unit(age=self.player.age, team=self.player.team))
             self.unit_memory[chosen_unit.__name__] += 1
-            print(f"Spawned unit: {chosen_unit.__name__}")
 
     def spawn_combo_units(self):
         combo_units = [
@@ -120,12 +117,10 @@ class HardBot(AIBot):
             if self.can_afford(unit):
                 self.player.add_unit(unit(age=self.player.age, team=self.player.team))
                 self.unit_memory[unit.__name__] += 1
-                print(f"Spawned unit: {unit.__name__}")
 
     def spawn_defensive_units(self):
         defensive_units = [Heavy, Infantry]
         most_common_enemy_unit = max(self.enemy_memory, key=self.enemy_memory.get)
-        print(f"J'ai : {self.player.money} et l'ennemi a : {self.other_player.money}")
         if most_common_enemy_unit == "Infantry":
             chosen_unit = Heavy
         elif most_common_enemy_unit == "Heavy":
@@ -136,7 +131,6 @@ class HardBot(AIBot):
         if self.can_afford(chosen_unit):
             self.player.add_unit(chosen_unit(age=self.player.age, team=self.player.team))
             self.unit_memory[chosen_unit.__name__] += 1
-            print(f"Spawned unit: {chosen_unit.__name__}")
 
     def attempt_upgrade(self):
         available_upgrades = ["damage", "hp", "range", "gold"]
@@ -153,7 +147,6 @@ class HardBot(AIBot):
                     self.player.upgrade_hp(most_used_unit)
                 elif chosen_upgrade == "range":
                     self.player.upgrade_range(most_used_unit)
-                print(f"Upgraded {chosen_upgrade} for {most_used_unit}")
 
             # Upgrade units that counter enemy's most used units
             most_used_enemy_unit = max(self.enemy_memory, key=self.enemy_memory.get)
@@ -166,7 +159,6 @@ class HardBot(AIBot):
                     self.player.upgrade_hp(counter_unit)
                 elif chosen_upgrade == "range":
                     self.player.upgrade_range(counter_unit)
-                print(f"Upgraded {chosen_upgrade} for {counter_unit} to counter {most_used_enemy_unit}")
 
     def can_afford(self, unit):
         return self.player.money >= unit.price

@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="596c8370-9a77-4d59-93d4-dfe59317b1b2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/hud/Close.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/hud.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +43,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/sounds",
+    "last_opened_file_path": "/Users/tom/PycharmProjects/Age Of War/assets/hud",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -54,8 +55,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/assets/sounds" />
       <recent name="$PROJECT_DIR$/assets/hud" />
+      <recent name="$PROJECT_DIR$/assets/sounds" />
       <recent name="$PROJECT_DIR$/assets/base/4" />
       <recent name="$PROJECT_DIR$/assets/backgrounds/4" />
       <recent name="$PROJECT_DIR$/assets/base/2" />
@@ -119,6 +120,8 @@
       <workItem from="1716315391689" duration="12549000" />
       <workItem from="1716540675043" duration="912000" />
       <workItem from="1717012968755" duration="1281000" />
+      <workItem from="1717014297193" duration="48000" />
+      <workItem from="1717059334700" duration="3198000" />
     </task>
     <servers />
   </component>
