@@ -205,7 +205,7 @@ class Infantry(Unit):
         super().__init__(
             "Infantry",
             100,
-            10,
+            self.price,
             10,
             0.5,
             200,
@@ -229,7 +229,7 @@ class Support(Unit):
         super().__init__(
             "Support",
             100,
-            10,
+            self.price,
             5,
             0.5,
             300,

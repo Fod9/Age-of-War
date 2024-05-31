@@ -51,13 +51,17 @@ class Game:
 
             for unit in units:
                 unit.handle_resize(screen)
-
         if event.type == pygame.QUIT:
             self.running = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.hud.handle_event(event)
+
+        if event.type == pygame.KEYDOWN:
+            #if k pressed, change the game speed
+            if event.key == pygame.K_k:
+                self.hud.change_speed()
 
         if event.type == pygame.USEREVENT:
             new_age = max(self.red_player.age, self.blue_player.age)
