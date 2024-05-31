@@ -70,7 +70,7 @@ class Player:
         for unit in self.units[:]:
             unit.update(all_units, self, other_player)
 
-        # Update money every 5 seconds
+        # Update money every 2 seconds
         if pygame.time.get_ticks() - self.last_money_update > 2000:
             self.money += 2
             self.last_money_update = pygame.time.get_ticks()
@@ -91,7 +91,6 @@ class Player:
         for u in self.units:
             if u.position[0] == unit.position[0] or u.position[0] - 50 <= unit.position[0] <= u.position[0] + 50:
                 return
-
 
         if self.money >= unit.price:
             # Apply multipliers

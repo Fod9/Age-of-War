@@ -152,6 +152,8 @@ class Unit:
             self.die(player, other_player)
             return
 
+        self.position = (self.position[0], self.define_y_position(self.age, other_player, player))
+
         time = pygame.time.get_ticks()
         can_attack = False
 
@@ -184,14 +186,20 @@ class Unit:
         distance = abs(self.position[0] - base.position[0])
         return distance <= self.range
 
-    def define_y_position(self, age: int):
-        if age == 1:
+    def define_y_position(self, age: int, other_player: "Player" = None, player: "Player" = None):
+        game_age = age
+        if player is not None:
+            game_age = player.age
+            if other_player.age > player.age:
+                game_age = other_player.age
+
+        if game_age == 1:
             return int(self.screen.get_height() - 300)
-        elif age == 2:
+        elif game_age == 2:
             return int(self.screen.get_height() * 0.75)
-        elif age == 3:
+        elif game_age == 3:
             return int(self.screen.get_height() - 300)
-        elif age == 4:
+        elif game_age == 4:
             return int(self.screen.get_height() * 0.80)
 
 

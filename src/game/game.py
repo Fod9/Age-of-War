@@ -58,12 +58,8 @@ class Game:
             if event.button == 1:
                 self.hud.handle_event(event)
 
-        if event.type == pygame.KEYDOWN:
-            #if k pressed, change the game speed
-            if event.key == pygame.K_k:
-                self.hud.change_speed()
-
         if event.type == pygame.USEREVENT:
+            # When user change his age, we need to update the background and the music
             new_age = max(self.red_player.age, self.blue_player.age)
             self.age = new_age
             self.background = pygame.image.load(f"assets/backgrounds/{self.age}/background.png").convert_alpha()
